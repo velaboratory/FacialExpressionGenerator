@@ -1,23 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[RequireComponent(typeof(SkinnedMeshRenderer))]
+
 public class AttachToSkinnedMesh : MonoBehaviour
 {
     //a transform that you think is really close to the target.  The actual point will be found from this
     //this will also be what follows around the point
-    public Transform closestPointAtStart;
     // Start is called before the first frame update
-    SkinnedMeshRenderer smr;
+    public SkinnedMeshRenderer smr;
     int closest;
     void Start()
     {
-        smr = GetComponent<SkinnedMeshRenderer>();
+        
         Mesh m = new Mesh();
         smr.BakeMesh(m);
         Debug.Log(m.vertices.Length);
 
-        Vector3 p = transform.InverseTransformPoint(closestPointAtStart.transform.position);
+        Vector3 p = smr.transform.InverseTransformPoint(this.transform.position);
          closest = 0;
         Vector3[] verts = m.vertices;
         float closestDistance = Vector3.Distance(verts[closest],p);
@@ -59,6 +58,6 @@ public class AttachToSkinnedMesh : MonoBehaviour
         Mesh m = new Mesh();
         smr.BakeMesh(m);
         Vector3[] v = m.vertices;
-        closestPointAtStart.transform.position = this.transform.TransformPoint(v[closest]);
+        this.transform.position = smr.transform.TransformPoint(v[closest]);
     }
 }
