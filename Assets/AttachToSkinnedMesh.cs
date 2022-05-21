@@ -2,13 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// transform that you think is really close to the target. The actual point will be found from this, and this transform will follow that point
+/// </summary>
 public class AttachToSkinnedMesh : MonoBehaviour
 {
-    //a transform that you think is really close to the target.  The actual point will be found from this
-    //this will also be what follows around the point
-    // Start is called before the first frame update
-    public SkinnedMeshRenderer smr;
     int closest;
+    Transform[] bones;
+    float[] weights;
+    Vector3[] offsets;
+
+    [Tooltip("assigned to the skinned mesh renderer you want this point to follow")]
+    public SkinnedMeshRenderer smr;
+
+    [Tooltip("if checked, this would only use the bones, and would ignore blendshapes (only use if not using blendshapes!)")]
+    public bool useBonesOnly;
+
     void Start()
     {
         
@@ -17,7 +26,7 @@ public class AttachToSkinnedMesh : MonoBehaviour
         Debug.Log(m.vertices.Length);
 
         Vector3 p = smr.transform.InverseTransformPoint(this.transform.position);
-         closest = 0;
+        closest = 0;
         Vector3[] verts = m.vertices;
         float closestDistance = Vector3.Distance(verts[closest],p);
         for(int i = 1; i < m.vertices.Length; i++)
@@ -30,34 +39,46 @@ public class AttachToSkinnedMesh : MonoBehaviour
 			}
         }
 
-        Debug.Log(closest + "," + closestDistance);
+        BoneWeight boneWeights = smr.sharedMesh.boneWeights[closest];
+        bones = new Transform[] {smr.bones[boneWeights.boneIndex0],
+                                             smr.bones[boneWeights.boneIndex1],
+                                             smr.bones[boneWeights.boneIndex2],
+                                             smr.bones[boneWeights.boneIndex3]};
+        weights = new float[] { boneWeights.weight0, boneWeights.weight1, boneWeights.weight2, boneWeights.weight3 };
+        offsets = new Vector3[weights.Length];
+        Vector3 originalPoint = smr.transform.TransformPoint(smr.sharedMesh.vertices[closest]);
         
+        for (int i = 0; i < weights.Length; i++)
+		{
+            offsets[i] = bones[i].InverseTransformPoint(originalPoint);
+		}
     }
 
- //   Vector3 transformByBones(int VertexIndex)
- //   {
- //       BoneWeight weights = smr.sharedMesh.boneWeights[VertexIndex];
+	Vector3 transformByBones()
+	{
+        Vector3 p = bones[0].TransformPoint(offsets[0]) * weights[0];
 
- //       Transform[] b = new Transform[] {smr.bones[weights.boneIndex0],
- //                                            smr.bones[weights.boneIndex1],
- //                                            smr.bones[weights.boneIndex2],
- //                                            smr.bones[weights.boneIndex3]};
- //       float[] w = new float[] { weights.weight0, weights.weight1, weights.weight2, weights.weight3 };
+        for (int i = 1; i < weights.Length; i++)
+		{
+            p += bones[i].TransformPoint(offsets[i]) * weights[i];
 
- //       Vector3 p = smr.sharedMesh.vertices[VertexIndex];
- //       Vector3 newP = Vector3.zero;
- //       for(int i = 0; i < b.Length; i++)
-	//	{
- //           newP += b[i].TransformPoint(p) * w[i];
-	//	}
- //       return newP;
-	//}
-    // Update is called once per frame
-    void Update()
+        }
+        return p;
+	}
+	// Update is called once per frame
+	void Update()
     {
-        Mesh m = new Mesh();
-        smr.BakeMesh(m);
-        Vector3[] v = m.vertices;
-        this.transform.position = smr.transform.TransformPoint(v[closest]);
+        if (useBonesOnly)
+        {
+            Vector3 temp = transformByBones();
+            this.transform.position = temp;
+		}
+		else
+		{
+            Mesh m = new Mesh();
+            smr.BakeMesh(m);
+            Vector3[] v = m.vertices;
+            this.transform.position = smr.transform.TransformPoint(v[closest]);
+        }  
     }
 }
