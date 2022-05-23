@@ -8,16 +8,19 @@ public class LeapMotion : MonoBehaviour
     public LeapShader leapShaderRight;
     public byte[] leftImage;
     public byte[] rightImage;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
 
     public IEnumerator captureImages()
@@ -28,5 +31,7 @@ public class LeapMotion : MonoBehaviour
         yield return new WaitUntil(() => !leapShaderRight.doCapture && !leapShaderLeft.doCapture);
         leftImage = leapShaderLeft.captureData;
         rightImage = leapShaderRight.captureData;
-	}
+
+        
+    }
 }

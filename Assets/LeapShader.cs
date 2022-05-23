@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+
+
 public class LeapShader : MonoBehaviour
 {
     public Shader awesomeShader = null;
@@ -31,6 +33,7 @@ public class LeapShader : MonoBehaviour
             RenderTexture.active = save;
             captureData = photo.EncodeToPNG();
             doCapture = false;
+           
         }
 
     }

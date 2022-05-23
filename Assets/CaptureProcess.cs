@@ -40,9 +40,10 @@ public class CaptureProcess : MonoBehaviour
                 avatar.smr.SetBlendShapeWeight(i, amount);
                 yield return null;
                 yield return StartCoroutine(lm.captureImages());
-
-                File.WriteAllBytes(Application.persistentDataPath + "/leapLeft_b" + blendshapeNames[i] + "_" + amount + ".png", lm.leftImage);
-                File.WriteAllBytes(Application.persistentDataPath + "/leapRight_b" + blendshapeNames[i] + "_" + amount + ".png", lm.rightImage);
+                // print("test : "+ Application.persistentDataPath);
+                //remove the Application.persistentDataPath +
+                File.WriteAllBytes( "Output/left/leapLeft_b" + blendshapeNames[i] + "_" + amount + ".png", lm.leftImage);
+                File.WriteAllBytes( "Output/right/leapRight_b" + blendshapeNames[i] + "_" + amount + ".png", lm.rightImage);
                 avatar.smr.SetBlendShapeWeight(i, 0);
             }
 
