@@ -49,6 +49,7 @@ Shader "Custom/LeapShader"
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
                 col.rgb = (.299*col.r + .587*col.g + .114*col.b);
+                col.w = 1;
                 // apply fog
                 UNITY_APPLY_FOG(i.fogCoord, col);
                 return col;

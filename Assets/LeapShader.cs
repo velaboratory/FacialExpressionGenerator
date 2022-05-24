@@ -11,6 +11,21 @@ public class LeapShader : MonoBehaviour
     public bool doCapture = false;
     void Start()
     {
+        if(transform.position.x == -0.02)
+        {
+            //dumb way to set the variation for the other 5 degree.
+            //transform.position = new Vector3(-0.02f,Random.Range(-0.02f, 0.02f), Random.Range(-0.02f, 0.02f));
+            //transform.rotation = Quaternion.Euler(Random.Range(-0.02f, 0.02f), Random.Range(-0.02f, 0.02f),
+            //                                    Random.Range(-0.02f, 0.02f));
+        }
+        else
+        {
+            //transform.position = new Vector3(0.02f, Random.Range(-0.02f, 0.02f), Random.Range(-0.02f, 0.02f));
+            //transform.rotation = Quaternion.Euler(Random.Range(-0.02f, 0.02f), Random.Range(-0.02f, 0.02f),
+            //                                     Random.Range(-0.02f, 0.02f));
+        }
+
+        
         photo = new Texture2D(640, 480);
         if (awesomeShader == null)
         {
