@@ -1,8 +1,16 @@
 Assets/Microsoft-Rocketbox/*
 !Assets/Microsoft-Rocketbox/.gitkeep
-!*facial.fbx
-!*facial.fbx.meta
-#!Assets/Microsoft-Rocketbox/**/*facial.fbx.meta
+!Assets/Microsoft-Rocketbox/Assets 
+Assets/Microsoft-Rocketbox/Assets/*
+!Assets/Microsoft-Rocketbox/Assets/Avatars
+Assets/Microsoft-Rocketbox/Assets/Avatars/*.meta
+Assets/Microsoft-Rocketbox/Assets/Avatars/Children
+Assets/Microsoft-Rocketbox/Assets/Avatars/**/*.meta
+Assets/Microsoft-Rocketbox/Assets/Avatars/**/*ale*/*
+!Assets/Microsoft-Rocketbox/Assets/Avatars/**/*ale*/Export
+Assets/Microsoft-Rocketbox/Assets/Avatars/**/*ale*/Export/*
+!Assets/Microsoft-Rocketbox/Assets/Avatars/**/*ale*/Export/*facial*
+
 # This .gitignore file should be placed at the root of your Unity project directory
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
