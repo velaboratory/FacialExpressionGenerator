@@ -27,12 +27,28 @@ public class CaptureProcess : MonoBehaviour
         return arr;
     }
 
+    public string getAvatarName(Avatar avatar)
+    {
+        string avatarName = avatar.gameObject.name;
+        if (avatarName.Substring(0,1)=="M")
+        {
+            return "Male" + avatarName.Substring(avatarName.LastIndexOf("_") - 2, 2);
+        }
+        else
+        {
+            return "Female" + avatarName.Substring(avatarName.LastIndexOf("_") - 2, 2);
+        }
+
+        
+    }
+
     // Update is called once per frame
     IEnumerator doCapture()
 	{
      
         string[] blendshapeNames = getBlendShapeNames(avatar.smr);
-        for(int i = 0; i < blendshapeNames.Length; i++)
+        string avatarName = getAvatarName(avatar);
+        for (int i = 0; i < blendshapeNames.Length; i++)
 		{
             //move the blendshape to 0, 25, 50, 75, 100, and then capture an image with the name
             for (int amount = 0; amount <= 100; amount += 25)
@@ -42,8 +58,8 @@ public class CaptureProcess : MonoBehaviour
                 yield return StartCoroutine(lm.captureImages());
                 // print("test : "+ Application.persistentDataPath);
                 //remove the Application.persistentDataPath +
-                File.WriteAllBytes("Output/left/Male01leapLeft_b" + blendshapeNames[i] + "_" + amount + ".png", lm.leftImage);
-                File.WriteAllBytes("Output/right/Male01leapRight_b" + blendshapeNames[i] + "_" + amount + ".png", lm.rightImage);
+                File.WriteAllBytes("Output/rxp2left/leapLeft_b" + avatarName + blendshapeNames[i] + "_" + amount + ".png", lm.leftImage);
+                File.WriteAllBytes("Output/rxp2right/leapRight_b" + avatarName + blendshapeNames[i] + "_" + amount + ".png", lm.rightImage);
 
                 //File.WriteAllBytes( "Output/left/Female02leapLeft_b" + blendshapeNames[i] + "_" + amount + ".png", lm.leftImage);
                 //File.WriteAllBytes("Output/right/Female02leapRight_b" + blendshapeNames[i] + "_" + amount + ".png", lm.rightImage);
