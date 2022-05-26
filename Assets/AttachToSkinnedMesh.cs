@@ -11,7 +11,7 @@ public class AttachToSkinnedMesh : MonoBehaviour
     Transform[] bones;
     float[] weights;
     Vector3[] offsets;
-
+     
     [Tooltip("assigned to the skinned mesh renderer you want this point to follow")]
     public SkinnedMeshRenderer smr;
 
@@ -20,7 +20,7 @@ public class AttachToSkinnedMesh : MonoBehaviour
 
     void Start()
     {
-        
+         
         Mesh m = new Mesh();
         smr.BakeMesh(m);
         Debug.Log(m.vertices.Length);
@@ -68,6 +68,7 @@ public class AttachToSkinnedMesh : MonoBehaviour
 	// Update is called once per frame
 	void Update()
     {
+         
         if (useBonesOnly)
         {
             Vector3 temp = transformByBones();
@@ -79,6 +80,7 @@ public class AttachToSkinnedMesh : MonoBehaviour
             smr.BakeMesh(m);
             Vector3[] v = m.vertices;
             this.transform.position = smr.transform.TransformPoint(v[closest]);
-        }  
+        }
+        
     }
 }

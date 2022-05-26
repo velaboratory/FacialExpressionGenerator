@@ -14,6 +14,8 @@ public class autoproduce : MonoBehaviour
     public CaptureProcess cp;
     public GameObject leftmouthmarker;
     public GameObject rightmouthmarker;
+    private SkinnedMeshRenderer cacheSkin;
+    public LeapMotion LMcache;
 
     public struct avatarProp
     {
@@ -45,7 +47,8 @@ public class autoproduce : MonoBehaviour
     }
     IEnumerator avatarSimulation()
     {
-        float waitTime = 3;
+        //currently run sequentially; to run in paralell, all other scripts must be multiple instantiated.
+        float waitTime = 10;
          
         Transform[] avatarSets = avatarCliques.GetComponentsInChildren<Transform>(true);
         foreach (Transform avatar in avatarSets)
@@ -56,13 +59,23 @@ public class autoproduce : MonoBehaviour
                 // 2. check it does it have the avatar script: if not, attach one; set it to CP, set with mesh
                 // 3. check it does have markers, if not, attach them, set with the mesh
                 avatarProp mine = getAvatarProp(avatar.name);
-                if (!avatar.gameObject.activeSelf)
+
+                if (avatar.gameObject.activeSelf)
                 {
-                    avatar.gameObject.SetActive(true);                    
+                    // to set up this avatar property, deactivate to make sure nothing running to mess around
+                    avatar.gameObject.SetActive(false);
                 }
-                //print(avatar.name);
+
+
+               
+                print(avatar.name);
                 //avatar.position = mine.bodyPos; //set the local pos
-                avatar.transform.position = mine.bodyPos; //set the global pos
+                if (avatar.transform.localPosition == Vector3.zero)
+                {
+                    avatar.transform.position = mine.bodyPos; //set the global pos
+                    //busi man 1 Vector3(0.769999981,-0.0700000003,-0.0799999982)
+                }
+
 
 
                 if (!avatar.GetComponent<Avatar>())
@@ -70,31 +83,83 @@ public class autoproduce : MonoBehaviour
                     avatar.gameObject.AddComponent<Avatar>();
                 }
            
-                cp.avatar = avatar.GetComponent<Avatar>();
+               
 
+                cacheSkin = avatar.GetChild(1).GetComponent<SkinnedMeshRenderer>();
+                avatar.GetComponent<Avatar>().smr = cacheSkin;
+                //print(cacheSkin.gameObject.name);
 
-                avatar.GetComponent<Avatar>().smr = avatar.GetChild(1).GetComponent<SkinnedMeshRenderer>();
-
-                if (avatar.childCount == 2)
+                bool LeftMouthHasMarker = false; //auto left marker always wrong. weird!
+                bool RightMouthHasMarker = false;
+                foreach (Transform components in avatar)
                 {
-                    
-                    GameObject leftmarker = Instantiate(leftmouthmarker, mine.leftMouthCornerPos,Quaternion.identity);
-                    leftmouthmarker.GetComponent<AttachToSkinnedMesh>().smr
-                        = avatar.GetChild(1).GetComponent<SkinnedMeshRenderer>();
-                    leftmarker.transform.parent= avatar;
-                    
-                    GameObject rightmarker = Instantiate(rightmouthmarker,mine.rightMouthCornerPos,Quaternion.identity);
+                    if(components.parent == avatar)
+                    {
+                        if (components.name.Contains("LeftMouth"))
+                        {
+                            LeftMouthHasMarker = true;
+                        }else if (components.name.Contains("RightMouth"))
+                        {
+                            RightMouthHasMarker = true;
+                        }
+                    }
+                }
+                if (!RightMouthHasMarker) 
+                {
+                    //
+                 
+
+                    GameObject rightmarker = Instantiate(rightmouthmarker);//,mine.rightMouthCornerPos,Quaternion.identity);
                     rightmarker.GetComponent<AttachToSkinnedMesh>().smr
-                       = avatar.GetChild(1).GetComponent<SkinnedMeshRenderer>();
+                       = cacheSkin;
                     rightmarker.transform.parent = avatar;
-                             
+                    rightmarker.transform.localPosition = mine.rightMouthCornerPos;
+                    //print(cacheSkin.gameObject.name);
+                }
+                if (!LeftMouthHasMarker)
+                {
+                    GameObject leftmarker = Instantiate(leftmouthmarker);//, mine.leftMouthCornerPos, Quaternion.identity);
+                    leftmouthmarker.GetComponent<AttachToSkinnedMesh>().smr = cacheSkin;
+                    //print("left one: " +cacheSkin.gameObject.name); //somehow editor side does not show properly
+                    leftmarker.transform.parent = avatar;
+                    //print("mine.leftMouthCornerPos " + mine.leftMouthCornerPos);
+                    leftmarker.transform.localPosition = mine.leftMouthCornerPos;
+                    //print("transform.localPosition: " + leftmarker.transform.localPosition);
+                    //print("actually " + leftmouthmarker.GetComponent<AttachToSkinnedMesh>().smr.name);
                 }
                 // to animate 
-               yield return new WaitForSeconds(waitTime);
-               avatar.gameObject.SetActive(false);
-            }
+
+                if (!avatar.gameObject.activeSelf)
+                {
+                    avatar.gameObject.SetActive(true);
+                }
+
+                cp.avatar = avatar.GetComponent<Avatar>();
+                
+                if (!cp.gameObject.activeSelf)
+                {
+                    cp.gameObject.SetActive(true);
+                    
+                }
+                cp.RestartCoroutine();
+
+
+                /*
+                if (!cp.GetComponent<CaptureProcess>().enabled)
+                {
+                    cp.GetComponent<CaptureProcess>().enabled = true; //restarted
+                }*/
+
+
+                yield return new WaitForSeconds(waitTime);
+
+                avatar.gameObject.SetActive(false);
+                //cp.GetComponent<CaptureProcess>().enabled = false;
+
+            }//check kids depth level
           
-        }
+        }//foreach loop
+
         /*
         //the following cannot retrieve disabled/inactive 
         for (int i = 0; i < avatars.childCount; i++)
@@ -113,7 +178,7 @@ public class autoproduce : MonoBehaviour
     {
         //dropped this could avoid the local folder guid difference problem
         //if they under resource folder, it could work, added to the scene during runtime.
-        float waitTime = 5;
+        float waitTime = 10;
         string path = "Assets/Microsoft-Rocketbox/Assets/Avatars";
         if (Directory.Exists(path))
         {
@@ -180,18 +245,18 @@ public class autoproduce : MonoBehaviour
         if (avatarpath.Contains("Male") && !avatarpath.Contains("Child")) // avatarpath.Contains("Adult"))
         {
             avatarProp mine = new avatarProp("MaleAdult",
-                new Vector3(0.772f, -0.07f, -0.09f),
-                  new Vector3(1, 1, 1),
-                 new Vector3(1, 1, 1));
+                new Vector3(0.772f, -0.07f, -0.09f), //Vector3(0.769999981,-0.0700000003,-0.0799999982)
+                  new Vector3(-0.0244f, 1.612f, 0.115f),
+                 new Vector3(0.0238f, 1.612f, 0.115f));
                 
             
             return mine;
         }else if (avatarpath.Contains("Female") && !avatarpath.Contains("Child")) // avatarpath.Contains("Adult"))
         {
             avatarProp mine = new avatarProp("FemaleAdult",
-                                new  Vector3(0.772f, 0, 0),
-                                 new Vector3(1, 1, 1),
-                                 new Vector3(1, 1, 1));
+                                new  Vector3(0.770f, 0, 0),
+                                 new Vector3(-0.0220f, 1.5450f, 0.05418f),
+                                 new Vector3(0.02275f, 1.5485f, 0.05478f));
             return mine;
         }
         else if(avatarpath.Contains("Male"))

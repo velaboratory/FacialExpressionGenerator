@@ -7,6 +7,7 @@ public class CaptureProcess : MonoBehaviour
 {
     public LeapMotion lm;
     public Avatar avatar;
+    //public amountReset = 
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +43,12 @@ public class CaptureProcess : MonoBehaviour
         
     }
 
+    public void RestartCoroutine()
+    {
+        StopCoroutine(doCapture());
+        StartCoroutine(doCapture());
+    }
+
     // Update is called once per frame
     IEnumerator doCapture()
 	{
@@ -58,8 +65,8 @@ public class CaptureProcess : MonoBehaviour
                 yield return StartCoroutine(lm.captureImages());
                 // print("test : "+ Application.persistentDataPath);
                 //remove the Application.persistentDataPath +
-                File.WriteAllBytes("Output/rxp2left/leapLeft_b" + avatarName + blendshapeNames[i] + "_" + amount + ".png", lm.leftImage);
-                File.WriteAllBytes("Output/rxp2right/leapRight_b" + avatarName + blendshapeNames[i] + "_" + amount + ".png", lm.rightImage);
+                //File.WriteAllBytes("Output/rxp2left/leapLeft_b" + avatarName + blendshapeNames[i] + "_" + amount + ".png", lm.leftImage);
+                //File.WriteAllBytes("Output/rxp2right/leapRight_b" + avatarName + blendshapeNames[i] + "_" + amount + ".png", lm.rightImage);
 
                 //File.WriteAllBytes( "Output/left/Female02leapLeft_b" + blendshapeNames[i] + "_" + amount + ".png", lm.leftImage);
                 //File.WriteAllBytes("Output/right/Female02leapRight_b" + blendshapeNames[i] + "_" + amount + ".png", lm.rightImage);
