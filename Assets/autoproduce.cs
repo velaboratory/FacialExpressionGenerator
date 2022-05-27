@@ -15,7 +15,6 @@ public class autoproduce : MonoBehaviour
     public GameObject leftmouthmarker;
     public GameObject rightmouthmarker;
     private SkinnedMeshRenderer cacheSkin;
-    public LeapMotion LMcache;
 
     public struct avatarProp
     {
@@ -48,7 +47,7 @@ public class autoproduce : MonoBehaviour
     IEnumerator avatarSimulation()
     {
         //currently run sequentially; to run in paralell, all other scripts must be multiple instantiated.
-        float waitTime = 10;
+        float waitTime = 5;
          
         Transform[] avatarSets = avatarCliques.GetComponentsInChildren<Transform>(true);
         foreach (Transform avatar in avatarSets)
@@ -72,8 +71,9 @@ public class autoproduce : MonoBehaviour
                 //avatar.position = mine.bodyPos; //set the local pos
                 if (avatar.transform.localPosition == Vector3.zero)
                 {
-                    avatar.transform.position = mine.bodyPos; //set the global pos
-                    //busi man 1 Vector3(0.769999981,-0.0700000003,-0.0799999982)
+                    //I manually adjust most avatars initial pos, if they are not adjust, theirs would be zero
+                    avatar.transform.position = mine.bodyPos; //set the global initial pos
+                    
                 }
 
 
@@ -141,20 +141,15 @@ public class autoproduce : MonoBehaviour
                     cp.gameObject.SetActive(true);
                     
                 }
-                cp.RestartCoroutine();
+                cp.RestartCoroutine(); //wow deactivate/disable and enable/activate script won't restart the coroutine.
 
 
-                /*
-                if (!cp.GetComponent<CaptureProcess>().enabled)
-                {
-                    cp.GetComponent<CaptureProcess>().enabled = true; //restarted
-                }*/
 
 
                 yield return new WaitForSeconds(waitTime);
 
                 avatar.gameObject.SetActive(false);
-                //cp.GetComponent<CaptureProcess>().enabled = false;
+                
 
             }//check kids depth level
           
@@ -246,7 +241,7 @@ public class autoproduce : MonoBehaviour
         {
             avatarProp mine = new avatarProp("MaleAdult",
                 new Vector3(0.772f, -0.07f, -0.09f), //Vector3(0.769999981,-0.0700000003,-0.0799999982)
-                  new Vector3(-0.0244f, 1.612f, 0.115f),
+                  new Vector3(-0.0244f, 1.614f, 0.122f),
                  new Vector3(0.0238f, 1.612f, 0.115f));
                 
             
@@ -255,24 +250,24 @@ public class autoproduce : MonoBehaviour
         {
             avatarProp mine = new avatarProp("FemaleAdult",
                                 new  Vector3(0.770f, 0, 0),
-                                 new Vector3(-0.0220f, 1.5450f, 0.05418f),
+                                 new Vector3(-0.02182f, 1.5450f, 0.055f),
                                  new Vector3(0.02275f, 1.5485f, 0.05478f));
             return mine;
         }
         else if(avatarpath.Contains("Male"))
         {//kids
             avatarProp mine = new avatarProp("MaleKids",
-                              new Vector3(1, 1, 1),
-                              new Vector3(1, 1, 1),
-                              new Vector3(1, 1, 1));
+                              new Vector3(0.77f, 0.27f, -0.06f),
+                              new Vector3(-0.02018f, 1.27332f, 0.09285f),
+                              new Vector3(0.02002f, 1.27332f, 0.0956f));
             return mine;
         }
         else
         {
             avatarProp mine = new avatarProp("FemaleKids",
-                              new Vector3(1, 1, 1),
-                              new Vector3(1, 1, 1),
-                              new Vector3(1, 1, 1));
+                              new Vector3(0.77f, 0.275f, 0),
+                              new Vector3(-0.022f, 1.272f, 0.03836f),
+                              new Vector3(0.0182f, 1.272f, 0.0411f));
             return mine;
         }
     }//getAvatarProp
