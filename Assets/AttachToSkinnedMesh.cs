@@ -23,7 +23,7 @@ public class AttachToSkinnedMesh : MonoBehaviour
          
         Mesh m = new Mesh();
         smr.BakeMesh(m);
-        Debug.Log(m.vertices.Length);
+        //Debug.Log(m.vertices.Length);
 
         Vector3 p = smr.transform.InverseTransformPoint(this.transform.position);
         closest = 0;

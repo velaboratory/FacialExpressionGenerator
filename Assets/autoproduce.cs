@@ -7,7 +7,7 @@ using System.IO; //for directory()
 public class autoproduce : MonoBehaviour
 {
     //public GameObject[] prefabs;
-    //int indices = 0;
+    int indices = 0;
     
     //references
     public Transform avatarCliques;
@@ -67,7 +67,7 @@ public class autoproduce : MonoBehaviour
 
 
                
-                print(avatar.name);
+                //print(avatar.name);
                 //avatar.position = mine.bodyPos; //set the local pos
                 if (avatar.transform.localPosition == Vector3.zero)
                 {
@@ -135,7 +135,7 @@ public class autoproduce : MonoBehaviour
                 }
 
                 cp.avatar = avatar.GetComponent<Avatar>();
-                
+                cp.avatarName = indices + mine.name;
                 if (!cp.gameObject.activeSelf)
                 {
                     cp.gameObject.SetActive(true);
@@ -149,7 +149,7 @@ public class autoproduce : MonoBehaviour
                 yield return new WaitForSeconds(waitTime);
 
                 avatar.gameObject.SetActive(false);
-                
+                indices += 1;
 
             }//check kids depth level
           
