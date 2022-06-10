@@ -5064,15 +5064,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 353fd45e30745eb4ea4f74c816306603, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.77
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 353fd45e30745eb4ea4f74c816306603, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.07
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 353fd45e30745eb4ea4f74c816306603, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.08
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 353fd45e30745eb4ea4f74c816306603, type: 3}
       propertyPath: m_LocalRotation.w
@@ -6671,7 +6671,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.5
   m_Range: 4
   m_SpotAngle: 90
   m_InnerSpotAngle: 1
@@ -8324,7 +8324,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lm: {fileID: 130918466}
   avatar: {fileID: 1334960535}
-  avatarName: 
 --- !u!4 &1083318076
 Transform:
   m_ObjectHideFlags: 0
@@ -11252,8 +11251,8 @@ Camera:
   m_GameObject: {fileID: 1522351545}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -11380,8 +11379,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1530845186}
-  m_LocalRotation: {x: 0, y: 0.0008726948, z: 0, w: 0.99999964}
-  m_LocalPosition: {x: 0.57, y: 1, z: -1.49}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.57528996, y: 0.99050593, z: -1.4830443}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11389,7 +11388,7 @@ Transform:
   - {fileID: 130918465}
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0.1, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1534789296
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15663,7 +15662,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.5
   m_Range: 4
   m_SpotAngle: 90
   m_InnerSpotAngle: 2
@@ -15757,7 +15756,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.5
   m_Range: 4
   m_SpotAngle: 90
   m_InnerSpotAngle: 2

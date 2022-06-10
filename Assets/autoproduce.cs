@@ -47,7 +47,7 @@ public class autoproduce : MonoBehaviour
     IEnumerator avatarSimulation()
     {
         //currently run sequentially; to run in paralell, all other scripts must be multiple instantiated.
-        float waitTime = 5;
+        float waitTime = 5; //was 5 seconds first round
          
         Transform[] avatarSets = avatarCliques.GetComponentsInChildren<Transform>(true);
         foreach (Transform avatar in avatarSets)
