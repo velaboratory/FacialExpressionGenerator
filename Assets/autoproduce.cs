@@ -141,8 +141,8 @@ public class autoproduce : MonoBehaviour
                     cp.gameObject.SetActive(true);
                     
                 }
-                cp.RestartCoroutine(); //wow deactivate/disable and enable/activate script won't restart the coroutine.
-
+                //cp.RestartCoroutine(); //wow deactivate/disable and enable/activate script won't restart the coroutine.
+                yield return cp.doCapture();
 
 
 

@@ -46,14 +46,23 @@ public class CaptureProcess : MonoBehaviour
 
     public void RestartCoroutine()
     {
-        StopCoroutine(doCapture());
+        StopCoroutine("Do");
         StartCoroutine(doCapture());
     }
 
     // Update is called once per frame
-    IEnumerator doCapture()
+    public IEnumerator doCapture()
 	{
-     
+        //m_BlendShapeWeights.Array.data[1] PP
+        //m_BlendShapeWeights.Array.data[2] FF
+        //m_BlendShapeWeights.Array.data[3] TH
+        //m_BlendShapeWeights.Array.data[4] DD
+        //m_BlendShapeWeights.Array.data[5] KK
+        //m_BlendShapeWeights.Array.data[6] CH
+        //m_BlendShapeWeights.Array.data[7] SS
+        //m_BlendShapeWeights.Array.data[7] nn
+        //
+
         string[] blendshapeNames = getBlendShapeNames(avatar.smr);
         //string avatarName = getAvatarName(avatar);
         for (int i = 0; i < blendshapeNames.Length; i++)
