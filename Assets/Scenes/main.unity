@@ -55227,7 +55227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a2d0d0b6b1c911640af5dac78f1f9208, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2331796145375477632, guid: a2d0d0b6b1c911640af5dac78f1f9208, type: 3}
       propertyPath: m_BlendShapeWeights.Array.size

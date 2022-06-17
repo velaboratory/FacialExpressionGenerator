@@ -64,7 +64,19 @@ public class CaptureProcess : MonoBehaviour
             {
                 if (components.parent == LandmarkerSets)
                 {
-                    LandmarkVec[indices] = cam.WorldToScreenPoint(components.position);
+                    //LandmarkVec[indices] = cam.WorldToScreenPoint(components.position);
+
+                    //https://forum.unity.com/threads/convert-from-world-space-coordinate-to-pixel-of-render-texture.364586/
+                    RectTransform rectTrans = components.GetComponentInParent<RectTransform>(); //RenderTextHolder
+
+                    Vector2 viewPos = cam.WorldToViewportPoint(components.position);
+                    Vector2 localPos = new Vector2(viewPos.x * rectTrans.sizeDelta.x, viewPos.y * rectTrans.sizeDelta.y);
+                    Vector3 worldPos = rectTrans.TransformPoint(localPos);
+                    float scalerRatio = (1 / this.transform.lossyScale.x) * 2; //Implying all x y z are the same for the lossy scale
+
+                    LandmarkVec[indices] = new Vector3(worldPos.x - rectTrans.sizeDelta.x / scalerRatio, worldPos.y - rectTrans.sizeDelta.y / scalerRatio, 1f);
+                    
+
                     indices++;
                 }
             }
@@ -159,9 +171,9 @@ public class CaptureProcess : MonoBehaviour
                         + avatarName + blendshapeNames[element] + "_" + amount;
 
 
-                    File.WriteAllBytes(filename + ".png", lm.leftImage);
-                    writeXML(getLandmarks(avatar, LeapLeftCam), filename + ".xml");
-                    File.WriteAllBytes(filename + ".png", lm.rightImage);
+                    File.WriteAllBytes(filename + "_leapLeft.png", lm.leftImage);
+                    writeXML(getLandmarks(avatar, LeapLeftCam), filename + "_leapLeft.xml");
+                    File.WriteAllBytes(filename + "_leapRight.png", lm.rightImage);
 
                 //also capture the 3d locations of the face markers
                 //transform to cam space. leave. should be here before reset
