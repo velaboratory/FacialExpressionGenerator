@@ -1,3 +1,94 @@
+
+June 17th
+
+project landmarks to cam 2d 
+
+collect data
+
+run resnet18 on new data with landmarks
+
+test on real leap data
+
+
+
+June 16th
+
+Pilot Female 02 , Business Female 01 are the same?
+
+
+
+June 15th
+
+36 landmarks: contour of face, nose T zone, lips.
+add it all.
+
+
+
+
+June 14th
+## filter blendshapes
+### removed those upface or weird ones
+
+	//m_BlendShapeWeights.Array.data[1] PP
+        //m_BlendShapeWeights.Array.data[2] FF
+        //m_BlendShapeWeights.Array.data[3] TH
+        //m_BlendShapeWeights.Array.data[4] DD
+        //m_BlendShapeWeights.Array.data[5] KK
+        //m_BlendShapeWeights.Array.data[6] CH
+        //m_BlendShapeWeights.Array.data[7] SS
+        //m_BlendShapeWeights.Array.data[8] nn micro open lips to expose tooth
+        //m_BlendShapeWeights.Array.data[9] RR mouth area shape change a little 
+        //m_BlendShapeWeights.Array.data[10] aa
+        //m_BlendShapeWeights.Array.data[11] E
+        //m_BlendShapeWeights.Array.data[12] 
+        //m_BlendShapeWeights.Array.data[13]
+        //m_BlendShapeWeights.Array.data[14] U
+        //m_BlendShapeWeights.Array.data[23] cheekraiser. double sides. one side is weird
+        //m_BlendShapeWeights.Array.data[27] nosewrinkler
+        //m_BlendShapeWeights.Array.data[28] 
+        //m_BlendShapeWeights.Array.data[30]
+        //m_BlendShapeWeights.Array.data[33]
+        //m_BlendShapeWeights.Array.data[36]
+        //m_BlendShapeWeights.Array.data[37]
+        //m_BlendShapeWeights.Array.data[38]
+        //m_BlendShapeWeights.Array.data[39]
+        //m_BlendShapeWeights.Array.data[40]
+        //m_BlendShapeWeights.Array.data[41]
+        //m_BlendShapeWeights.Array.data[42]
+        //m_BlendShapeWeights.Array.data[43]
+        //m_BlendShapeWeights.Array.data[44]
+        //m_BlendShapeWeights.Array.data[45]
+        //m_BlendShapeWeights.Array.data[46] jaw drop
+        //m_BlendShapeWeights.Array.data[47]
+        //m_BlendShapeWeights.Array.data[48]
+        //m_BlendShapeWeights.Array.data[63] left jaw
+        //m_BlendShapeWeights.Array.data[64]
+        //m_BlendShapeWeights.Array.data[65]
+        //m_BlendShapeWeights.Array.data[66]
+        //m_BlendShapeWeights.Array.data[67]
+        //m_BlendShapeWeights.Array.data[68]
+        //m_BlendShapeWeights.Array.data[69]
+        //m_BlendShapeWeights.Array.data[70]
+        //m_BlendShapeWeights.Array.data[71]
+        //m_BlendShapeWeights.Array.data[72]
+        //m_BlendShapeWeights.Array.data[78] 
+        //m_BlendShapeWeights.Array.data[79]
+        //m_BlendShapeWeights.Array.data[80]
+        //m_BlendShapeWeights.Array.data[81]
+        //m_BlendShapeWeights.Array.data[82]
+        //m_BlendShapeWeights.Array.data[83]
+        //m_BlendShapeWeights.Array.data[84]
+        //m_BlendShapeWeights.Array.data[85]
+        //m_BlendShapeWeights.Array.data[86]
+        //m_BlendShapeWeights.Array.data[89]
+        //m_BlendShapeWeights.Array.data[90]
+        //m_BlendShapeWeights.Array.data[91]
+        //m_BlendShapeWeights.Array.data[92]
+        //m_BlendShapeWeights.Array.data[95]
+        //m_BlendShapeWeights.Array.data[96]
+        //m_BlendShapeWeights.Array.data[108]
+        //m_BlendShapeWeights.Array.data[109]
+
 June 13th 
 ## remove avatars 
 police female 01... mask with head no way to remove

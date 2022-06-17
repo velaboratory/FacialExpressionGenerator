@@ -15,6 +15,9 @@ public class autoproduce : MonoBehaviour
     public GameObject leftmouthmarker;
     public GameObject rightmouthmarker;
     private SkinnedMeshRenderer cacheSkin;
+    public Transform HMDloction;
+    Transform landmarks;
+
 
     public struct avatarProp
     {
@@ -47,7 +50,7 @@ public class autoproduce : MonoBehaviour
     IEnumerator avatarSimulation()
     {
         //currently run sequentially; to run in paralell, all other scripts must be multiple instantiated.
-        float waitTime = 5; //was 5 seconds first round
+        //float waitTime = 5; //was 5 seconds first round
          
         Transform[] avatarSets = avatarCliques.GetComponentsInChildren<Transform>(true);
         foreach (Transform avatar in avatarSets)
@@ -66,15 +69,22 @@ public class autoproduce : MonoBehaviour
                 }
 
 
-               
+
                 //print(avatar.name);
-                //avatar.position = mine.bodyPos; //set the local pos
-                if (avatar.transform.localPosition == Vector3.zero)
+                //all avatars position are fixed and hmd is taylored, assigned hmd to the adjusted pos
+                //Transform HMDtaylored = null;
+                for (int i = 0; i < avatar.transform.childCount; i++)
                 {
-                    //I manually adjust most avatars initial pos, if they are not adjust, theirs would be zero
-                    avatar.transform.position = mine.bodyPos; //set the global initial pos
-                    
+                    Transform child = avatar.transform.GetChild(i);
+                    if (child.name.Contains("HMD"))
+                    {
+                        //print(child.name);
+                        //HMDtaylored = child;
+                        HMDloction.position = child.position;
+                    }
                 }
+
+
 
 
 
@@ -89,6 +99,9 @@ public class autoproduce : MonoBehaviour
                 avatar.GetComponent<Avatar>().smr = cacheSkin;
                 //print(cacheSkin.gameObject.name);
 
+
+                /*
+                 * landmark so need for mouth marker
                 bool LeftMouthHasMarker = false; //auto left marker always wrong. weird!
                 bool RightMouthHasMarker = false;
                 foreach (Transform components in avatar)
@@ -114,7 +127,7 @@ public class autoproduce : MonoBehaviour
                        = cacheSkin;
                     rightmarker.transform.parent = avatar;
                     rightmarker.transform.localPosition = mine.rightMouthCornerPos;
-                    //print(cacheSkin.gameObject.name);
+                    
                 }
                 if (!LeftMouthHasMarker)
                 {
@@ -124,9 +137,8 @@ public class autoproduce : MonoBehaviour
                     leftmarker.transform.parent = avatar;
                     //print("mine.leftMouthCornerPos " + mine.leftMouthCornerPos);
                     leftmarker.transform.localPosition = mine.leftMouthCornerPos;
-                    //print("transform.localPosition: " + leftmarker.transform.localPosition);
-                    //print("actually " + leftmouthmarker.GetComponent<AttachToSkinnedMesh>().smr.name);
-                }
+
+                }*/
                 // to animate 
 
                 if (!avatar.gameObject.activeSelf)
@@ -146,7 +158,7 @@ public class autoproduce : MonoBehaviour
 
 
 
-                yield return new WaitForSeconds(waitTime);
+                //yield return new WaitForSeconds(waitTime);
 
                 avatar.gameObject.SetActive(false);
                 indices += 1;
