@@ -68,7 +68,7 @@ public class autoproduce : MonoBehaviour
                     avatar.gameObject.SetActive(false);
                 }
 
-
+                //cp.disableLandmark(avatar.GetComponent<Avatar>());
 
                 //print(avatar.name);
                 //all avatars position are fixed and hmd is taylored, assigned hmd to the adjusted pos

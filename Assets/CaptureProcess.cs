@@ -16,7 +16,7 @@ public class CaptureProcess : MonoBehaviour
     public Camera LeapRightCam;
     public Light Midlight;
     Vector3[] Landmarks;
-    float variationPosX = 0;
+    //float variationPosX = 0;
     float lightIntensity;
 
 
@@ -42,6 +42,18 @@ public class CaptureProcess : MonoBehaviour
         return arr;
     }
 
+    public void disableLandmark(Avatar avatar)
+    {
+        for (int i = 0; i < avatar.transform.childCount; i++)
+        {
+            Transform child = avatar.transform.GetChild(i);
+            if (child.name.Contains("Landmarks"))
+            {
+                //print(child.name);
+                 child.gameObject.SetActive(false);
+            }
+        }
+    }
 
 
     public Vector3[] getLandmarks(Avatar avatar,Camera cam)
@@ -64,18 +76,9 @@ public class CaptureProcess : MonoBehaviour
             {
                 if (components.parent == LandmarkerSets)
                 {
-                    //LandmarkVec[indices] = cam.WorldToScreenPoint(components.position);
+                    LandmarkVec[indices] = cam.WorldToScreenPoint(components.position);
 
-                    //https://forum.unity.com/threads/convert-from-world-space-coordinate-to-pixel-of-render-texture.364586/
-                    RectTransform rectTrans = components.GetComponentInParent<RectTransform>(); //RenderTextHolder
-
-                    Vector2 viewPos = cam.WorldToViewportPoint(components.position);
-                    Vector2 localPos = new Vector2(viewPos.x * rectTrans.sizeDelta.x, viewPos.y * rectTrans.sizeDelta.y);
-                    Vector3 worldPos = rectTrans.TransformPoint(localPos);
-                    float scalerRatio = (1 / this.transform.lossyScale.x) * 2; //Implying all x y z are the same for the lossy scale
-
-                    LandmarkVec[indices] = new Vector3(worldPos.x - rectTrans.sizeDelta.x / scalerRatio, worldPos.y - rectTrans.sizeDelta.y / scalerRatio, 1f);
-                    
+                    //WorldToScreenPoint: The bottom-left of the screen is (0,0); the right-top is (pixelWidth,pixelHeight).
 
                     indices++;
                 }
@@ -87,12 +90,21 @@ public class CaptureProcess : MonoBehaviour
         return LandmarkVec;
     }
 
+    public bool writeCSV(Vector3[] LandmarkVec, string filename)
+    {
+
+
+        return true;
+    }
+
     public class landmarker
     {
         public float x;
         public float y;
         public float z;
     }
+
+  
 
     public bool writeXML(Vector3[] LandmarkVec,string filename)
     {
@@ -156,24 +168,27 @@ public class CaptureProcess : MonoBehaviour
 
 
         int blendshapeBound = blendshapeNames.Length;
-
+        disableLandmark(avatar);
+        // in total 236 different pose of face deformation
         foreach (int element in indices)
         {
             if (element < blendshapeBound) //c# there is no for+if bundle? so assure within boundary  
             {
                 for (int amount = 25; amount <= 100; amount += 25) // 0 is repeated across different blending
                 {
+
                     avatar.smr.SetBlendShapeWeight(element, amount);
                     yield return null; //wait for the next frame and continue execution from this line
                     yield return StartCoroutine(lm.captureImages());
 
-                    string filename=filePath+"/Light" + lightIntensity 
-                        + avatarName + blendshapeNames[element] + "_" + amount;
+                    string filename= avatarName + blendshapeNames[element] + "_" + amount;
+                     
 
-
-                    File.WriteAllBytes(filename + "_leapLeft.png", lm.leftImage);
-                    writeXML(getLandmarks(avatar, LeapLeftCam), filename + "_leapLeft.xml");
-                    File.WriteAllBytes(filename + "_leapRight.png", lm.rightImage);
+                    File.WriteAllBytes(filePath+ "/Light" + lightIntensity
+                        + "_leapLeft" + filename + ".png", lm.leftImage);
+                    //writeXML(getLandmarks(avatar, LeapLeftCam), filename + "_leapLeft.xml");
+                    File.WriteAllBytes(filePath + "/Light" + lightIntensity
+                        + "_leapRight" + filename + ".png", lm.rightImage);
 
                 //also capture the 3d locations of the face markers
                 //transform to cam space. leave. should be here before reset

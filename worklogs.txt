@@ -1,5 +1,26 @@
 
+csv file storing the landmarker
+
+
+rationa
+a mark 
+reliable for seqential edge with identifiable feature case for corner of lip
+ask machine learning to find marker.
+find nasal to restrict the rest like lips...
+
+
+4 mark upperlipbot, underliptop.
+
+open/close raw image data.
+landmark on vertex right
+
+remove the same
+
+
 June 17th
+
+
+
 
 project landmarks to cam 2d 
 
