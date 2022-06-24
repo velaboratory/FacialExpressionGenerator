@@ -14,6 +14,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 import torchvision.transforms.functional as TF
 from torchvision import datasets, models, transforms
+from PIL import Image
 import json
 
 
@@ -67,7 +68,10 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
         preleft = Image.fromarray(np.uint8(leftRightImage[0])).convert('RGB')
         l = TF.normalize(TF.to_tensor(TF.resize(TF.rgb_to_grayscale(preleft
                                                          ,1),(240,320))),[0.5], [0.5]).unsqueeze(0)
-        
+                                                         
+        preright = Image.fromarray(np.uint8(leftRightImage[1])).convert('RGB')
+        r = TF.normalize(TF.to_tensor(TF.resize(TF.rgb_to_grayscale(preleft
+                                                         ,1),(240,320))),[0.5], [0.5]).unsqueeze(0)
         
         # Resize
         #preleft= cv2.normalize(cv2.resize(leftRightImage[0],
@@ -75,14 +79,14 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
         #preright=cv2.normalize(cv2.resize(leftRightImage[1],
         #            (320,240)),None,0.0,1.0,cv2.NORM_MINMAX).astype('float32')
         #preleft = cv2.resize(leftRightImage[0], (320,240)) # integer [0,256]
-        preright = cv2.resize(leftRightImage[1], (320,240))    #size (240, 320)
+        #preright = cv2.resize(leftRightImage[1], (320,240))    #size (240, 320)
      
        
         
         
         # Pack the raw images
         #l = TF.normalize(TF.to_tensor(preleft.astype(np.uint8)), [0.5], [0.5]).unsqueeze(0)
-        r = TF.normalize(TF.to_tensor(preright), [0.5], [0.5]).unsqueeze(0)
+        #r = TF.normalize(TF.to_tensor(preright), [0.5], [0.5]).unsqueeze(0)
         #l = TF.to_tensor(preleft).unsqueeze(0)
         #r = TF.to_tensor(preright).unsqueeze(0)
         bundle = torch.cat((l,r)) 
@@ -96,20 +100,20 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
         
         # Display the raw frame
         if preds[0].cpu().numpy() == 1:
-            leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(300,200),(0,1,0),2)
+            leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
                     ,"close",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 0.5, 250), 2, cv2.LINE_AA) #.astype('float32')
         else:
-            leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(300,200),(0,1,0),2)
+            leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
                     ,"openLeft",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 250, 250), 2, cv2.LINE_AA) #.astype('float32')
                    
         if preds[1].cpu().numpy() == 1:
-            rightviz = cv2.putText(cv2.rectangle(preright,(20,20),(300,200),(0,1,0),2)
+            rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
                     ,"close",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 1, 250), 2, cv2.LINE_AA) #.astype('float32')
         else:
-            rightviz = cv2.putText(cv2.rectangle(preright,(20,20),(300,200),(0,1,0),2)
+            rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
                     ,"openRight",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 250, 250), 2, cv2.LINE_AA) #.astype('float32')
         cv2.imshow('Frame L', leftviz)
