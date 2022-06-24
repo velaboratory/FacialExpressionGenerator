@@ -51,9 +51,10 @@ undistRect = True
 
 # Capture images until 'q' is pressed
 while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
-    newFrame, leftRightImage = leap.read()
+    newFrame, leftRightImage = leap.read() # in np.uint8
     if(newFrame):
         # Rectify the image
+        #print("before the undistorted: ",leftRightImage[0].shape)
         if(undistRect):
                 maps = contents['left']["undistortMaps"]
                 leftRightImage[0] = cv2.remap(leftRightImage[0], np.array(maps[0], dtype=np.int16), # 
@@ -62,17 +63,22 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
                 leftRightImage[1] = cv2.remap(leftRightImage[1], np.array(maps[0], dtype=np.int16), # 
                 np.array(maps[1], dtype=np.int16), cv2.INTER_LINEAR)
                 
-        
-        # cv2 raw data in BGR order, so re-organize the channel order
+        #print("before the pass to torch",leftRightImage[0].shape)
+        # cv2 raw data in GRAYSCALAE
         # pytorch tools need RGB numpy or better PIL data and PyTorch Tensor input    
-        preleft = Image.fromarray(np.uint8(leftRightImage[0])).convert('RGB')
-        l = TF.normalize(TF.to_tensor(TF.resize(TF.rgb_to_grayscale(preleft
-                                                         ,1),(240,320))),[0.5], [0.5]).unsqueeze(0)
-                                                         
-        preright = Image.fromarray(np.uint8(leftRightImage[1])).convert('RGB')
-        r = TF.normalize(TF.to_tensor(TF.resize(TF.rgb_to_grayscale(preleft
-                                                         ,1),(240,320))),[0.5], [0.5]).unsqueeze(0)
         
+        preleft = Image.fromarray(np.uint8(leftRightImage[0])) #.convert('RGB') #DOUBLE SECURE THE RGB
+        
+        #print("before the pass to torch",preleft.size, " and ",preleft.getbands())
+        #ABOUVE PRINTS (640, 480)  and  ('L',) L: graysacle
+        
+        #TF.rgb_to_grayscale(,1)
+        
+        l = TF.normalize(TF.to_tensor(TF.resize(preleft,(240,320))),[0.5], [0.5]).unsqueeze(0)
+                                                         
+        preright = Image.fromarray(np.uint8(leftRightImage[1]))  #.convert('RGB')
+        r = TF.normalize(TF.to_tensor(TF.resize(preright,(240,320))),[0.5], [0.5]).unsqueeze(0)
+        #TF.rgb_to_grayscale(,1)
         # Resize
         #preleft= cv2.normalize(cv2.resize(leftRightImage[0],
         #            (320,240)),None,0.0,1.0,cv2.NORM_MINMAX).astype('float32')
@@ -101,20 +107,20 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
         # Display the raw frame
         if preds[0].cpu().numpy() == 1:
             leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
-                    ,"close",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
-                    (250, 0.5, 250), 2, cv2.LINE_AA) #.astype('float32')
-        else:
-            leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
                     ,"openLeft",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
-                    (250, 250, 250), 2, cv2.LINE_AA) #.astype('float32')
+                    (250, 50, 250), 2, cv2.LINE_AA) #.astype('float32')
+        else:
+            leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(40,100,40),2)
+                    ,"CLOSE",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (40, 200, 120), 2, cv2.LINE_AA) #.astype('float32')
                    
         if preds[1].cpu().numpy() == 1:
             rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
-                    ,"close",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    ,"openRight",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 1, 250), 2, cv2.LINE_AA) #.astype('float32')
         else:
             rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
-                    ,"openRight",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    ,"CloseRight",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 250, 250), 2, cv2.LINE_AA) #.astype('float32')
         cv2.imshow('Frame L', leftviz)
         cv2.imshow('Frame R', rightviz)

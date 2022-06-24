@@ -1,4 +1,6 @@
-
+June 24th
+added lips markers: 4 upperlipbot, underliptop.
+the pytorch raw data preprocessing with PIL RGB<-->LeapUVC stream with CV2 or any CV2 loading
 
 
 June 23rd
