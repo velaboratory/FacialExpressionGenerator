@@ -1,4 +1,61 @@
 
+
+
+June 23rd
+
+#recollect data 
+using 1.1 light intensity 
+with variation hmd.pos + Vector3(0f, -0.005f, 0.005f) based on me myself with quest 1
+LEDS ANGLE, 140 stored under output/var
+
+
+
+
+June 22ND
+
+#recollect data 
+using 0.9 light intensity 
+with taylored hmd stored under output/new
+test on leap stream data. bad!
+
+
+June 21st
+
+
+# CLEAR Repeated AVATARs in term of face. especially lower face shape and structure
+FIRE MALE 03 AND FIRE MALE 04 ARE THE EXACTLY SAME in term of face.         | REMOVE FireM4
+Security Female 01 and Sports Female are the  EXACTLY SAME in term of face. | REMOVE SportF1
+FIRE female 03 AND FIRE MALE 05  ARE THE EXACTLY SAME in term of face.      | REMOVE FireF3
+Gardener Male 01/Construction Male 01/Adult Male 05 are THE EXACTLY SAME.   | REMOVE GardenM1
+Gardener Male 01/Construction Male 01/Adult Male 05 are THE EXACTLY SAME.   | REMOVE AdultM5
+Military Male 01 and and Fire Male 02 ARE the EXTREMELY similar.            | REMOVE FireM2
+Fire Male 01 and Fire Male 07 are THE EXACTLY SAME.                         | REMOVE FireM7
+Police Male 05 AND business male 02 are THE EXACTLY SAME.                   | REMOVE PoliceM5
+Female adult 09 and pilot female 01 are THE EXACTLY SAME.                   | REMOVE AdultF9 
+Female adult 11 and Medical female 01 are THE EXACTLY SAME.                 | REMOVE AdultF11
+
+#suspicious
+Med Male 04 and Med Male 05 are highly similar but lower different a little | keep for now
+Med Male 04 and Adult Male 01(Pos Y -0.028) are THE EXACTLY SAME in lower face but different
+in the eye color, AdultM1 is hazel and MedM4/MedM5 are brown.               | REMOVE MedM4
+Sports Male 01 and Sports Male 02 are highly similar but Different in beard | keep for now
+
+
+
+#Taylor THE LEAP
+MEASURE
+ LEDS DISTANTCE, 35mm
+ LEDS ANGLE, 120
+ LEDS RANGE, 30mm
+
+
+June 20th
+
+#binary CLASSIFICATION
+GAUSS NOISE INTO PYTORCH DATASET SUITE TOOL
+RECOLLECT DATA.... FAIL
+
+
 csv file storing the landmarker
 
 
@@ -34,7 +91,7 @@ test on real leap data
 
 June 16th
 
-Pilot Female 02 , Business Female 01 are the same?
+Pilot Female 02 , Business Female 01 are the same. LITTLE EYELASH DIFFER! REMOVED PiloTF02!
 
 
 

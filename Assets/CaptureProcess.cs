@@ -24,7 +24,7 @@ public class CaptureProcess : MonoBehaviour
     void Start()
     {
         Landmarks = new Vector3[36];
-        lightIntensity = Midlight.GetComponent<Light>().intensity;
+        lightIntensity = Midlight.GetComponent<Light>().intensity * 10;
         StartCoroutine(doCapture());
     }
 
@@ -92,8 +92,16 @@ public class CaptureProcess : MonoBehaviour
 
     public bool writeCSV(Vector3[] LandmarkVec, string filename)
     {
+        StreamWriter xmlwriter = new StreamWriter(filename);
+        foreach (Vector3 element in LandmarkVec)
+        {
+            xmlwriter.WriteLine(element.x+","+ (480- element.y) + "," + element.z);
 
 
+        }
+
+
+        xmlwriter.Close();
         return true;
     }
 
@@ -103,9 +111,7 @@ public class CaptureProcess : MonoBehaviour
         public float y;
         public float z;
     }
-
   
-
     public bool writeXML(Vector3[] LandmarkVec,string filename)
     {
         XmlSerializer xmler = new XmlSerializer(typeof(landmarker));
@@ -182,13 +188,16 @@ public class CaptureProcess : MonoBehaviour
                     yield return StartCoroutine(lm.captureImages());
 
                     string filename= avatarName + blendshapeNames[element] + "_" + amount;
-                     
 
-                    File.WriteAllBytes(filePath+ "/Light" + lightIntensity
-                        + "_leapLeft" + filename + ".png", lm.leftImage);
-                    //writeXML(getLandmarks(avatar, LeapLeftCam), filename + "_leapLeft.xml");
-                    File.WriteAllBytes(filePath + "/Light" + lightIntensity
-                        + "_leapRight" + filename + ".png", lm.rightImage);
+                    if (writeIMG)
+                    {
+                        File.WriteAllBytes(filePath + "/lip/Light" + lightIntensity
+                            + "_leapLeft" + filename + ".png", lm.leftImage);
+                        //writeXML(getLandmarks(avatar, LeapLeftCam), filename + "_leapLeft.xml");
+                        File.WriteAllBytes(filePath + "/lip/Light" + lightIntensity
+                            + "_leapRight" + filename + ".png", lm.rightImage);
+                    }
+
 
                 //also capture the 3d locations of the face markers
                 //transform to cam space. leave. should be here before reset
