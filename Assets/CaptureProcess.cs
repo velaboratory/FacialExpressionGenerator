@@ -11,20 +11,20 @@ public class CaptureProcess : MonoBehaviour
     public Avatar avatar;
     public string avatarName;
     string filePath = "Output";
-    bool writeIMG = false;
+    bool writeIMG = true;
     public Camera LeapLeftCam;
     public Camera LeapRightCam;
     public Light Midlight;
     Vector3[] Landmarks;
     //float variationPosX = 0;
-    float lightIntensity;
+    int lightIntensity;
 
 
     // Start is called before the first frame update
     void Start()
     {
         Landmarks = new Vector3[36];
-        lightIntensity = Midlight.GetComponent<Light>().intensity * 10;
+        lightIntensity = Mathf.CeilToInt(Midlight.GetComponent<Light>().intensity * 10);
         StartCoroutine(doCapture());
     }
 
@@ -191,10 +191,10 @@ public class CaptureProcess : MonoBehaviour
 
                     if (writeIMG)
                     {
-                        File.WriteAllBytes(filePath + "/lip/Light" + lightIntensity
+                        File.WriteAllBytes(filePath + "/cat/Light" + lightIntensity
                             + "_leapLeft" + filename + ".png", lm.leftImage);
                         //writeXML(getLandmarks(avatar, LeapLeftCam), filename + "_leapLeft.xml");
-                        File.WriteAllBytes(filePath + "/lip/Light" + lightIntensity
+                        File.WriteAllBytes(filePath + "/cat/Light" + lightIntensity
                             + "_leapRight" + filename + ".png", lm.rightImage);
                     }
 
