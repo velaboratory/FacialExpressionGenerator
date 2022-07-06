@@ -29,7 +29,7 @@ with torch.no_grad():
     model_ft.fc = nn.Linear(num_ftrs, 5)
     #model_ft = model_ft.to(device)
     model_ft.cuda()
-    model_ft.load_state_dict(torch.load('../Models/resnet18Categ.pth')) 
+    model_ft.load_state_dict(torch.load('../Models/resnet18Category.pth')) 
     model_ft.eval()
     
 # load calibration file
@@ -65,36 +65,27 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
                 
         #print("before the pass to torch",leftRightImage[0].shape)
         # cv2 raw data in GRAYSCALAE
-        # pytorch tools need RGB numpy or better PIL data and PyTorch Tensor input    
         
-        preleft = Image.fromarray(np.uint8(leftRightImage[0])) #.convert('RGB') #DOUBLE SECURE THE RGB
+        
+        # pytorch tools need RGB numpy or better PIL data and PyTorch Tensor input    
+
+     
+        
+            
+        preleft = Image.fromarray(np.uint8(leftRightImage[0])) 
+        l = TF.normalize(TF.to_tensor(TF.resize(preleft,(240,320))),[0.5], [0.5]).unsqueeze(0)                                                      
+        preright = Image.fromarray(np.uint8(leftRightImage[1])) 
+        r = TF.normalize(TF.to_tensor(TF.resize(preright,(240,320))),[0.5], [0.5]).unsqueeze(0)
         
         #print("before the pass to torch",preleft.size, " and ",preleft.getbands())
-        #ABOUVE PRINTS (640, 480)  and  ('L',) L: graysacle
-        
-        #TF.rgb_to_grayscale(,1)
-        
-        l = TF.normalize(TF.to_tensor(TF.resize(preleft,(240,320))),[0.5], [0.5]).unsqueeze(0)
-                                                         
-        preright = Image.fromarray(np.uint8(leftRightImage[1]))  #.convert('RGB')
-        r = TF.normalize(TF.to_tensor(TF.resize(preright,(240,320))),[0.5], [0.5]).unsqueeze(0)
-        #TF.rgb_to_grayscale(,1)
-        # Resize
-        #preleft= cv2.normalize(cv2.resize(leftRightImage[0],
-        #            (320,240)),None,0.0,1.0,cv2.NORM_MINMAX).astype('float32')
-        #preright=cv2.normalize(cv2.resize(leftRightImage[1],
-        #            (320,240)),None,0.0,1.0,cv2.NORM_MINMAX).astype('float32')
-        #preleft = cv2.resize(leftRightImage[0], (320,240)) # integer [0,256]
-        #preright = cv2.resize(leftRightImage[1], (320,240))    #size (240, 320)
+        #ABOUVE PRINTS (640, 480) , ('L',) : graysacle, no need for TF.rgb_to_grayscale(,1) or .convert('RGB')
+   
+
      
        
         
         
         # Pack the raw images
-        #l = TF.normalize(TF.to_tensor(preleft.astype(np.uint8)), [0.5], [0.5]).unsqueeze(0)
-        #r = TF.normalize(TF.to_tensor(preright), [0.5], [0.5]).unsqueeze(0)
-        #l = TF.to_tensor(preleft).unsqueeze(0)
-        #r = TF.to_tensor(preright).unsqueeze(0)
         bundle = torch.cat((l,r)) 
         
         # Run thro network
@@ -106,14 +97,14 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
         
         # Display the raw frame
         
-        if preds[0].cpu().numpy() ==0 :     
+        if preds[0].cpu().numpy() == 0 :     
                 leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
                     ,"Eighty",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 50, 250), 2, cv2.LINE_AA) ;
         elif preds[0].cpu().numpy() ==1:    
                 leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
                     ,"Fifth",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
-                    (250, 50, 250), 2, cv2.LINE_AA); 
+                    (200, 150, 150), 2, cv2.LINE_AA); 
         elif preds[0].cpu().numpy() ==2:
                 leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
                     ,"Full",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
@@ -137,7 +128,7 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
         elif preds[1].cpu().numpy() ==1:    
                 rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
                     ,"Fifth",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
-                    (250, 50, 250), 2, cv2.LINE_AA); 
+                    (200, 150, 150), 2, cv2.LINE_AA); 
         elif preds[1].cpu().numpy() ==2:
                 rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
                     ,"Full",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
@@ -155,15 +146,3 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
 
 cv2.destroyAllWindows()
 
-"""
-preleft = (preleft - mean)/stdev
-preright = (preright - mean)/stdev
-
-preleft -= np.amin(preleft) #shift to 0 
-preleft = cv2.normalize(preleft,None,0,1,cv2.NORM_MINMAX).astype('float32') # [0,1]
-#preleft /= np.amax(preleft)
-preright -= np.amin(preright) #shift to 0 
-preright = cv2.normalize(preright,None,0,1,cv2.NORM_MINMAX).astype('float32') # [0,1]
-#preright /= np.amax(preright)
-
-"""

@@ -17,7 +17,7 @@ public class autoproduce : MonoBehaviour
     private SkinnedMeshRenderer cacheSkin;
     public Transform HMDloction;
     Transform landmarks;
-    Vector3 variation = new Vector3(0f, +0.005f, -0.003f);  
+    Vector3 variation = new Vector3(0f, +0.002f, +0.0017f);  
     Vector3 VariantRot = new Vector3(0.01f, 0.01f, 0.01f); 
 
     public struct avatarProp
