@@ -19,7 +19,7 @@ import json
 
 
 
-
+print("0725-25exp")
 
 # load cnn model
 with torch.no_grad():
@@ -29,6 +29,7 @@ with torch.no_grad():
     model_ft.fc = nn.Linear(num_ftrs, 5)
     #model_ft = model_ft.to(device)
     model_ft.cuda()
+    #model_ft.load_state_dict(torch.load('../Models/resnet18PenCat0725.pth')) 
     model_ft.load_state_dict(torch.load('../Models/resnet18Category.pth')) 
     model_ft.eval()
     
@@ -39,7 +40,9 @@ with open("calibration.json", 'r') as j:
 
 # set the leap 
 leap = leapuvc.leapImageThread(source=0,resolution = (640,480)) # resolution in the manual 
-leap.setExposure(30)
+leap.setExposure(22) 
+# exp 20 with resnet18Category.pth
+
 leap.setLeftLED(True)
 leap.setCenterLED(True)
 leap.setRightLED(True)

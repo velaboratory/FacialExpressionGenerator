@@ -11,6 +11,7 @@ public class CaptureProcess : MonoBehaviour
     public Avatar avatar;
     public string avatarName;
     string filePath = "Output";
+    string file2ndaryPath = "/pic";
     bool writeIMG = true;
     public Camera LeapLeftCam;
     public Camera LeapRightCam;
@@ -171,9 +172,9 @@ public class CaptureProcess : MonoBehaviour
                 Console.WriteLine(ex.Message);
             }
         }
-        
 
 
+        string nameLabel = "_r0_";
         int blendshapeBound = blendshapeNames.Length;
         disableLandmark(avatar);
         // in total 236 different pose of face deformation
@@ -192,10 +193,10 @@ public class CaptureProcess : MonoBehaviour
 
                     if (writeIMG)
                     {
-                        File.WriteAllBytes(filePath + "/lab/Light" + lightIntensity+ "_q2_"
+                        File.WriteAllBytes(filePath + file2ndaryPath+ "/Light" + lightIntensity+ nameLabel
                             + "_leapLeft" + filename + ".png", lm.leftImage);
                         //writeXML(getLandmarks(avatar, LeapLeftCam), filename + "_leapLeft.xml");
-                        File.WriteAllBytes(filePath + "/lab/Light" + lightIntensity + "_q2_"
+                        File.WriteAllBytes(filePath + file2ndaryPath + "/Light" + lightIntensity + nameLabel
                             + "_leapRight" + filename + ".png", lm.rightImage);
                     }
 

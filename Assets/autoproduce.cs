@@ -17,8 +17,8 @@ public class autoproduce : MonoBehaviour
     private SkinnedMeshRenderer cacheSkin;
     public Transform HMDloction;
     Transform landmarks;
-    Vector3 variation = new Vector3(0f, +0.002f, +0.0017f);  
-    Vector3 VariantRot = new Vector3(0.01f, 0.01f, 0.01f); 
+    Vector3 variation = new Vector3(0f, -0.008f, +0.004f);  
+    Vector3 VariantRot = new Vector3(0.0f, 0.0f, 0.0f); 
 
     public struct avatarProp
     {
@@ -56,7 +56,7 @@ public class autoproduce : MonoBehaviour
         Transform[] avatarSets = avatarCliques.GetComponentsInChildren<Transform>(true);
         foreach (Transform avatar in avatarSets)
         {
-            if(avatar.parent == avatarCliques ) // the first depth layer level
+            if(avatar.parent == avatarCliques) // the first depth layer level
             {
                 // option for test && avatar.gameObject.activeSelf
                 // 1. check it is active and adjust the pos

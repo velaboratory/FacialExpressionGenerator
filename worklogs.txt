@@ -1,3 +1,37 @@
+July 26
+test on new trained model with real leap data
+
+July 25
+retrain the model with the new data
+
+
+
+July 21
+added another dataset to mimic pico view
+|stored under output/pic|
+with variation:
+=> light intensity = 0.85  
+=> hmd.location + new Vector3(0f, -0.008f, +0.004f)
+=> HMDloction.transform.eulerAngles = Vector3.zero
+=> insert "_r0_" in each file name for naming. 
+maybe not like pico that much. because the model is oculus quest 2
+maybe need a pico
+
+July 14th
+re-run last time
+
+
+July 10th
+intented to add more variation data to make it more tolerant and robust
+1st more set data |stored under output/low|
+with variation:
+=> light intensity = 0.8 (actual test suggested low lightness)
+=> HMDloction.transform.eulerAngles = new Vector3(0.01f, 0.01f, 0.01f) //random variation
+=> insert "_r0_" in each file name for naming. 
+crashed
+
+
+
 July 6th
 tried 5 categories, not bad, but not good decently robusted!
 
