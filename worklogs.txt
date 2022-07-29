@@ -1,12 +1,23 @@
-July 29
+July 31th
 
-July 28
-Aligh the lipmarks
-Make the csv file works
-generate the data
+to do
+1. ML based method
 make a customize data loader with mark coordinates
 train
 test
+2. tried a conventional computer vision method
+
+
+July 29th
+finalize the code for generating data
+generate the data
+
+
+
+July 28
+Aligned the lipmarks
+ 
+
 
 
 July 26

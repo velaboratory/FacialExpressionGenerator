@@ -12,6 +12,7 @@ public class CaptureProcess : MonoBehaviour
     public string avatarName;
     string filePath = "Output";
     string file2ndaryPath = "/landmark";
+    string varVer = "_v0_"; //see worklog for like v0, v1 or others details of variation like hmd 6dof or lighting
     bool writeIMG = false;
     public Camera LeapLeftCam;
     public Camera LeapRightCam;
@@ -20,6 +21,7 @@ public class CaptureProcess : MonoBehaviour
     int lightIntensity;
     public Vector3 varPos;
     public Vector3 varRot;
+    public Transform lipsmark = null;
 
 
     // Start is called before the first frame update
@@ -60,6 +62,7 @@ public class CaptureProcess : MonoBehaviour
 
     public Vector3[] getLandmarks(Avatar avatar,Camera cam)
     {
+        /*
         Transform LandmarkerSets = null;
         for (int i = 0; i < avatar.transform.childCount; i++)
         {
@@ -69,19 +72,20 @@ public class CaptureProcess : MonoBehaviour
                 //print(child.name);
                 LandmarkerSets = child;
             }
-        }
-        //Vector3[]  LandmarkVec = new Vector3[36
-        Vector3[]  LandmarkVec = new Vector3[48];
-        if (LandmarkerSets != null)
+        }*/
+        //Vector3[]  LandmarkVec = new Vector3[36];
+        Vector3[] LandmarkVec = new Vector3[4];
+        if (lipsmark != null)
         {
             int indices = 0;
-            foreach (Transform components in LandmarkerSets)
+            foreach (Transform components in lipsmark)
             {
-                if (components.parent == LandmarkerSets)
+                if (components.parent == lipsmark)
                 {
                     LandmarkVec[indices] = cam.WorldToScreenPoint(components.position);
 
-                    //WorldToScreenPoint: The bottom-left of the screen is (0,0); the right-top is (pixelWidth,pixelHeight).
+                    //WorldToScreenPoint: The bottom-left of the screen is (0,0);
+                    //   the right-top is (pixelWidth,pixelHeight). will be taken care of in writeCSV()
 
                     indices++;
                 }
@@ -98,8 +102,8 @@ public class CaptureProcess : MonoBehaviour
         StreamWriter xmlwriter = new StreamWriter(filename);
         foreach (Vector3 element in LandmarkVec)
         {
-            xmlwriter.WriteLine(element.x+","+ (480- element.y) + "," + element.z);
-
+            xmlwriter.WriteLine(element.x + "," + (480 - element.y)); // + "," + element.z); // z for future
+            //480 is the snatshot 
 
         }
 
