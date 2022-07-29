@@ -1,5 +1,18 @@
+July 29
+
+July 28
+Aligh the lipmarks
+Make the csv file works
+generate the data
+make a customize data loader with mark coordinates
+train
+test
+
+
 July 26
-test on new trained model with real leap data
+test on new trained model with real leap data with pencat model
+
+swith to landmark
 
 July 25
 retrain the model with the new data

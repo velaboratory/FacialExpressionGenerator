@@ -11,8 +11,8 @@ public class CaptureProcess : MonoBehaviour
     public Avatar avatar;
     public string avatarName;
     string filePath = "Output";
-    string file2ndaryPath = "/pic";
-    bool writeIMG = true;
+    string file2ndaryPath = "/landmark";
+    bool writeIMG = false;
     public Camera LeapLeftCam;
     public Camera LeapRightCam;
     public Light Midlight;
@@ -70,8 +70,9 @@ public class CaptureProcess : MonoBehaviour
                 LandmarkerSets = child;
             }
         }
-        Vector3[]  LandmarkVec = new Vector3[36];
-        if(LandmarkerSets != null)
+        //Vector3[]  LandmarkVec = new Vector3[36
+        Vector3[]  LandmarkVec = new Vector3[48];
+        if (LandmarkerSets != null)
         {
             int indices = 0;
             foreach (Transform components in LandmarkerSets)
