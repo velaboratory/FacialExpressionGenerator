@@ -1,18 +1,22 @@
-July 31th
+
 
 to do
 1. ML based method
 make a customize data loader with mark coordinates
 train
 test
-2. tried a conventional computer vision method
+2. a conventional computer vision method
 
 
-July 29th
+Aug 4th
 finalize the code for generating data
 generate the data
-
-
+regen with July 5th style based on me myself with quest 2:
+with variation:
+=> hmd.location + Vector3(0f, +0.002f, +0.0017f)
+=> hmd.rotation: zero! 
+=> light intensity = 0.8
+=> varLabel "_v0_" in each file name for naming.  
 
 July 28
 Aligned the lipmarks

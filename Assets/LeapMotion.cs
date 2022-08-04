@@ -23,6 +23,17 @@ public class LeapMotion : MonoBehaviour
        
     }
 
+    public void startCaptureCoroutine()
+    {
+
+        StartCoroutine("captureImages");
+
+    }
+    public void stopCaptureCoroutine()
+    {
+        StopCoroutine("captureImages");
+    }
+
     public IEnumerator captureImages()
 	{
         

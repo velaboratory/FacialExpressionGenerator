@@ -10,10 +10,11 @@ public class CaptureProcess : MonoBehaviour
     public LeapMotion lm;
     public Avatar avatar;
     public string avatarName;
+    public int ordinalAvatar;
     string filePath = "Output";
     string file2ndaryPath = "/landmark";
-    string varVer = "_v0_"; //see worklog for like v0, v1 or others details of variation like hmd 6dof or lighting
-    bool writeIMG = false;
+    string varLabel = "_v0_"; //see worklog for this label details of variation like hmd 6dof or lighting
+    bool writeIMG = true;
     public Camera LeapLeftCam;
     public Camera LeapRightCam;
     public Light Midlight;
@@ -23,13 +24,34 @@ public class CaptureProcess : MonoBehaviour
     public Vector3 varRot;
     public Transform lipsmark = null;
 
+    int[] indices = new int[] { 1, 2, 3, 4 ,5 ,6 ,7 ,8 ,9 ,10
+            ,11 ,12 ,13 ,14 ,23 ,27 ,28 ,30 ,33 ,36 ,37 ,38 ,39 ,40
+            ,41 ,42 ,43 ,44 ,45 ,46 ,47 ,48 ,63 ,64 ,65 ,66 ,67 ,68
+            ,69 ,70 ,71 ,72 ,78 ,79 ,80 ,81 ,82 ,83 ,84 ,85 ,86 ,89
+            ,90 ,91 ,92 ,95 ,96 ,108 ,109}; // chosen for lower face proper deformation; see worklog
+
 
     // Start is called before the first frame update
     void Start()
     {
-        Landmarks = new Vector3[36];
-        lightIntensity = Mathf.CeilToInt(Midlight.GetComponent<Light>().intensity * 10);
-        StartCoroutine(doCapture());
+        //Landmarks = new Vector3[36];
+        //lightIntensity = Mathf.CeilToInt(Midlight.GetComponent<Light>().intensity * 10);
+        //StartCoroutine(doCapture());
+        if (writeIMG)
+        {
+            try
+            {
+                if (!Directory.Exists(filePath))
+                {
+                    Directory.CreateDirectory(filePath);
+                }
+
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 
     public string[] getBlendShapeNames(SkinnedMeshRenderer smr)
@@ -103,10 +125,9 @@ public class CaptureProcess : MonoBehaviour
         foreach (Vector3 element in LandmarkVec)
         {
             xmlwriter.WriteLine(element.x + "," + (480 - element.y)); // + "," + element.z); // z for future
-            //480 is the snatshot 
+            //480 is the snapshot 
 
         }
-
 
         xmlwriter.Close();
         return true;
@@ -151,37 +172,15 @@ public class CaptureProcess : MonoBehaviour
     // Update is called once per frame
     public IEnumerator doCapture()
 	{
-      
 
-        int[] indices = new int[] { 1, 2, 3, 4 ,5 ,6 ,7 ,8 ,9 ,10
-            ,11 ,12 ,13 ,14 ,23 ,27 ,28 ,30 ,33 ,36 ,37 ,38 ,39 ,40
-            ,41 ,42 ,43 ,44 ,45 ,46 ,47 ,48 ,63 ,64 ,65 ,66 ,67 ,68
-            ,69 ,70 ,71 ,72 ,78 ,79 ,80 ,81 ,82 ,83 ,84 ,85 ,86 ,89
-            ,90 ,91 ,92 ,95 ,96 ,108 ,109}; // chosen for lower face proper deformation; see worklog
+
+        print("one time");
 
         string[] blendshapeNames = getBlendShapeNames(avatar.smr);
 
-
-        if (writeIMG)
-        {
-            try
-            {
-                if (!Directory.Exists(filePath))
-                {
-                    Directory.CreateDirectory(filePath);
-                }
-
-            }
-            catch (IOException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-
-        string nameLabel = "_r0_";
+        
         int blendshapeBound = blendshapeNames.Length;
-        disableLandmark(avatar);
+        //disableLandmark(avatar);
         // in total 236 different pose of face deformation
         foreach (int element in indices)
         {
@@ -192,17 +191,23 @@ public class CaptureProcess : MonoBehaviour
 
                     avatar.smr.SetBlendShapeWeight(element, amount);
                     yield return null; //wait for the next frame and continue execution from this line
-                    yield return StartCoroutine(lm.captureImages());
+                    //yield return StartCoroutine(lm.captureImages()); // this cause memory explosion?
+                    //yield return lm.captureImages();
 
-                    string filename= avatarName + blendshapeNames[element] + "_" + amount;
+                    yield return lm.StartCoroutine("captureImages");                  
+                    //yield return lm.startCaptureCoroutine();
+                    string filename= ordinalAvatar + avatarName + blendshapeNames[element] + "_" + amount;
 
-                    if (writeIMG)
+                    if (writeIMG && ordinalAvatar > 71)
                     {
-                        File.WriteAllBytes(filePath + file2ndaryPath+ "/Light" + lightIntensity+ nameLabel
+                        File.WriteAllBytes(filePath + file2ndaryPath+ "/" + varLabel 
                             + "_leapLeft" + filename + ".png", lm.leftImage);
-                        //writeXML(getLandmarks(avatar, LeapLeftCam), filename + "_leapLeft.xml");
-                        File.WriteAllBytes(filePath + file2ndaryPath + "/Light" + lightIntensity + nameLabel
+                        writeCSV(getLandmarks(avatar, LeapLeftCam), filePath + file2ndaryPath + "/" 
+                            + varLabel + "_leapLeft" + filename + ".csv");
+                        File.WriteAllBytes(filePath + file2ndaryPath + "/" + varLabel 
                             + "_leapRight" + filename + ".png", lm.rightImage);
+                        writeCSV(getLandmarks(avatar, LeapRightCam), filePath + file2ndaryPath + "/"
+                            + varLabel + "_leapRight" + filename + ".csv");
                     }
 
 
@@ -210,6 +215,7 @@ public class CaptureProcess : MonoBehaviour
                 //transform to cam space. leave. should be here before reset
 
                 avatar.smr.SetBlendShapeWeight(element, 0); //reset !!! single variation. composite later
+                lm.StopCoroutine("captureImages");
                 }
                
                 
@@ -220,7 +226,7 @@ public class CaptureProcess : MonoBehaviour
 
 
 
-        yield return null; // final closure thing for coroutine?
+        yield return null; // final closure thing for coroutine StartCoroutine(lm.captureImages());
 
         /*
        for (int i = 0; i < blendshapeNames.Length; i++)

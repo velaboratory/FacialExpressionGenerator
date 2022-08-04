@@ -11,6 +11,7 @@ public class autoproduce : MonoBehaviour
     
     //references
     public Transform avatarCliques;
+    Transform[] avatarSets;
     public CaptureProcess cp;
     public bool showLandmark=false;
     //public GameObject leftmouthmarker;
@@ -19,8 +20,9 @@ public class autoproduce : MonoBehaviour
     public Transform HMDloction;
     public Transform lipsmark = null;
     //Transform landmarks;
-    Vector3 variation = new Vector3(0f, -0.008f, +0.004f);  
-    Vector3 VariantRot = new Vector3(0.0f, 0.0f, 0.0f); 
+    Vector3 variation = new Vector3(0f, +0.002f, +0.0017f);
+    Vector3 VariantRot = new Vector3(0.0f, 0.0f, 0.0f);
+    avatarProp mine;
 
     public struct avatarProp
     {
@@ -47,16 +49,16 @@ public class autoproduce : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        avatarSets = avatarCliques.GetComponentsInChildren<Transform>(true);
         //StartCoroutine("avatarLoadIteration"); //empty scene, load all avatars, drop it.
         StartCoroutine("avatarSimulation");
+
     
     }
     IEnumerator avatarSimulation()
     {
-        //currently run sequentially; to run in paralell, all other scripts must be multiple instantiated.
-        //float waitTime = 5; //was 5 seconds first round
-         
-        Transform[] avatarSets = avatarCliques.GetComponentsInChildren<Transform>(true);
+        //IEnumerator: across frames also need to invoke the inner coroutine cp.doCapture();
+
         foreach (Transform avatar in avatarSets)
         {
             if(avatar.parent == avatarCliques) // the first depth layer level
@@ -65,7 +67,7 @@ public class autoproduce : MonoBehaviour
                 // 1. check it is active and adjust the pos
                 // 2. check it does it have the avatar script: if not, attach one; set it to CP, set with mesh
                 // 3. check it does have markers, if not, attach them, set with the mesh
-                avatarProp mine = getAvatarProp(avatar.name);
+                mine = getAvatarProp(avatar.name);
 
                 if (avatar.gameObject.activeSelf)
                 {
@@ -117,74 +119,42 @@ public class autoproduce : MonoBehaviour
                 }
            
                
-
+                
                 cacheSkin = avatar.GetChild(1).GetComponent<SkinnedMeshRenderer>();
-                avatar.GetComponent<Avatar>().smr = cacheSkin;
+                if (cacheSkin!= avatar.GetComponent<Avatar>().smr)
+                {
+                    avatar.GetComponent<Avatar>().smr = cacheSkin;
+                }
+                   
                  
 
-
-                /*
-                 * landmark so need for mouth marker
-                bool LeftMouthHasMarker = false; //auto left marker always wrong. weird!
-                bool RightMouthHasMarker = false;
-                foreach (Transform components in avatar)
-                {
-                    if(components.parent == avatar)
-                    {
-                        if (components.name.Contains("LeftMouth"))
-                        {
-                            LeftMouthHasMarker = true;
-                        }else if (components.name.Contains("RightMouth"))
-                        {
-                            RightMouthHasMarker = true;
-                        }
-                    }
-                }
-                if (!RightMouthHasMarker) 
-                {
-                    //
-                 
-
-                    GameObject rightmarker = Instantiate(rightmouthmarker);//,mine.rightMouthCornerPos,Quaternion.identity);
-                    rightmarker.GetComponent<AttachToSkinnedMesh>().smr
-                       = cacheSkin;
-                    rightmarker.transform.parent = avatar;
-                    rightmarker.transform.localPosition = mine.rightMouthCornerPos;
-                    
-                }
-                if (!LeftMouthHasMarker)
-                {
-                    GameObject leftmarker = Instantiate(leftmouthmarker);//, mine.leftMouthCornerPos, Quaternion.identity);
-                    leftmouthmarker.GetComponent<AttachToSkinnedMesh>().smr = cacheSkin;
-                    //print("left one: " +cacheSkin.gameObject.name); //somehow editor side does not show properly
-                    leftmarker.transform.parent = avatar;
-                    //print("mine.leftMouthCornerPos " + mine.leftMouthCornerPos);
-                    leftmarker.transform.localPosition = mine.leftMouthCornerPos;
-
-                }*/
                 // to animate 
 
                 if (!avatar.gameObject.activeSelf)
                 {
+                    
                     avatar.gameObject.SetActive(true);
                 }
 
                 cp.avatar = avatar.GetComponent<Avatar>();
-                cp.avatarName = indices + mine.name;
+                cp.avatarName = mine.name;
+                cp.ordinalAvatar = indices;
                 if (!cp.gameObject.activeSelf)
                 {
+                    
                     cp.gameObject.SetActive(true);
                     
                 }
+                yield return cp.StartCoroutine("doCapture");
                 //cp.RestartCoroutine(); //wow deactivate/disable and enable/activate script won't restart the coroutine.
-                yield return cp.doCapture();
-
-
-
-                //yield return new WaitForSeconds(waitTime);
-
+                //yield return cp.doCapture();
+                
+                
                 avatar.gameObject.SetActive(false);
+                //Destroy(avatar.GetComponent<Avatar>()); //to avoid memory explosion? no
+                //Destroy(avatar.gameObject);//to avoid memory explosion? no
                 indices += 1;
+                cp.StopCoroutine("doCapture");
 
             }//check kids depth level
           
@@ -201,7 +171,7 @@ public class autoproduce : MonoBehaviour
 
             yield return new WaitForSeconds(waitTime);
         }*/
-
+        yield return null;
     }
 
     IEnumerator avatarLoadIteration()

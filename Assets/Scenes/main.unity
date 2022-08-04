@@ -1740,9 +1740,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatarCliques: {fileID: 2016768251}
   cp: {fileID: 1083318075}
-  leftmouthmarker: {fileID: 2643906832936436537, guid: 3c541c2a9d5d15c4b952d90435bc493a, type: 3}
-  rightmouthmarker: {fileID: 4064325183917085442, guid: 8a673b72cc8fcdf49b933b632a68a1d8, type: 3}
+  showLandmark: 0
   HMDloction: {fileID: 1530845187}
+  lipsmark: {fileID: 0}
 --- !u!4 &28780258
 Transform:
   m_ObjectHideFlags: 0
@@ -49614,7 +49614,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.85
+  m_Intensity: 0.8
   m_Range: 0.3
   m_SpotAngle: 140
   m_InnerSpotAngle: 1
@@ -50437,7 +50437,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 2a3eb2ae291c23b4bbc5d698b02126e0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a3eb2ae291c23b4bbc5d698b02126e0, type: 3}
@@ -61028,11 +61028,13 @@ MonoBehaviour:
   lm: {fileID: 130918466}
   avatar: {fileID: 1334960535}
   avatarName: 
+  ordinalAvatar: 0
   LeapLeftCam: {fileID: 1112433628}
   LeapRightCam: {fileID: 1522351548}
   Midlight: {fileID: 884129411}
   varPos: {x: 0, y: 0, z: 0}
   varRot: {x: 0, y: 0, z: 0}
+  lipsmark: {fileID: 0}
 --- !u!4 &1083318076
 Transform:
   m_ObjectHideFlags: 0
@@ -123075,7 +123077,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.85
+  m_Intensity: 0.8
   m_Range: 0.3
   m_SpotAngle: 140
   m_InnerSpotAngle: 1
@@ -123221,7 +123223,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.85
+  m_Intensity: 0.8
   m_Range: 0.3
   m_SpotAngle: 140
   m_InnerSpotAngle: 1
