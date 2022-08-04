@@ -173,9 +173,6 @@ public class CaptureProcess : MonoBehaviour
     public IEnumerator doCapture()
 	{
 
-
-        print("one time");
-
         string[] blendshapeNames = getBlendShapeNames(avatar.smr);
 
         
@@ -198,7 +195,7 @@ public class CaptureProcess : MonoBehaviour
                     //yield return lm.startCaptureCoroutine();
                     string filename= ordinalAvatar + avatarName + blendshapeNames[element] + "_" + amount;
 
-                    if (writeIMG && ordinalAvatar > 71)
+                    if (writeIMG )
                     {
                         File.WriteAllBytes(filePath + file2ndaryPath+ "/" + varLabel 
                             + "_leapLeft" + filename + ".png", lm.leftImage);
@@ -221,42 +218,10 @@ public class CaptureProcess : MonoBehaviour
                 
             }
         }
-       
+      
+        yield return null; // wait for the next frame and continue execution from this line
 
 
-
-
-        yield return null; // final closure thing for coroutine StartCoroutine(lm.captureImages());
-
-        /*
-       for (int i = 0; i < blendshapeNames.Length; i++)
-       {
-           //move the blendshape to 0, 25, 50, 75, 100, and then capture an image with the name
-           for (int amount = 0; amount <= 100; amount += 25)
-           {
-               avatar.smr.SetBlendShapeWeight(i, amount);
-               yield return null; //wait for the next frame and continue execution from this line
-               yield return StartCoroutine(lm.captureImages());
-
-               //remove the Application.persistentDataPath +
-
-               //HMD initial: Pos Vector3(0.575289965,0.990505934,-1.48304427), Rot Vector3.zero; in folder RXn2RZp2
-               //if anything changed from initial! used the changed part as the name like following
-
-               //RXn2Zp2. R means the HMD rotate, Xn2  in x negative 0.2, z positive 0.2. the rest hold as above
-               //T means pos, Yp1 : Y positive 1.
-               //File.WriteAllBytes("Output/I10/LI10RYp1TXp57leapLeft_b" + avatarName + blendshapeNames[i] + "_" + amount + ".png", lm.leftImage);
-               //File.WriteAllBytes("Output/I10/LI10RYp1TXp57leapRight_b" + avatarName + blendshapeNames[i] + "_" + amount + ".png", lm.rightImage);
-
-
-               //File.WriteAllBytes( "Output/left/Female02leapLeft_b" + blendshapeNames[i] + "_" + amount + ".png", lm.leftImage);
-               //File.WriteAllBytes("Output/right/Female02leapRight_b" + blendshapeNames[i] + "_" + amount + ".png", lm.rightImage);
-               avatar.smr.SetBlendShapeWeight(i, 0);//reset !!!  just single variation. composite later
-           }
-
-           //also capture the 3d locations of the face markers
-           //transform to cam space. leave
-       }*/
     }
 }
 

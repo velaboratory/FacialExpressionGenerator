@@ -51,14 +51,19 @@ public class autoproduce : MonoBehaviour
     {
         avatarSets = avatarCliques.GetComponentsInChildren<Transform>(true);
         //StartCoroutine("avatarLoadIteration"); //empty scene, load all avatars, drop it.
-        StartCoroutine("avatarSimulation");
+       
+            StartCoroutine("avatarSimulation");
+           // StopCoroutine("avatarSimulation");
+       
+        
 
     
     }
     IEnumerator avatarSimulation()
     {
-        //IEnumerator: across frames also need to invoke the inner coroutine cp.doCapture();
-
+    //IEnumerator: across frames also need to invoke the inner coroutine cp.doCapture();
+    
+       
         foreach (Transform avatar in avatarSets)
         {
             if(avatar.parent == avatarCliques) // the first depth layer level
@@ -155,6 +160,7 @@ public class autoproduce : MonoBehaviour
                 //Destroy(avatar.gameObject);//to avoid memory explosion? no
                 indices += 1;
                 cp.StopCoroutine("doCapture");
+                //System.GC.Collect();
 
             }//check kids depth level
           
@@ -172,6 +178,7 @@ public class autoproduce : MonoBehaviour
             yield return new WaitForSeconds(waitTime);
         }*/
         yield return null;
+        
     }
 
     IEnumerator avatarLoadIteration()

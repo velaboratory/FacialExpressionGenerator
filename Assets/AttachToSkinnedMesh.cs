@@ -24,7 +24,7 @@ public class AttachToSkinnedMesh : MonoBehaviour
         Mesh m = new Mesh();
         smr.BakeMesh(m);
         //Debug.Log(m.vertices.Length);
-
+        
         Vector3 p = smr.transform.InverseTransformPoint(this.transform.position);
         closest = 0;
         Vector3[] verts = m.vertices;
@@ -52,6 +52,7 @@ public class AttachToSkinnedMesh : MonoBehaviour
 		{
             offsets[i] = bones[i].InverseTransformPoint(originalPoint);
 		}
+        Destroy(m);
     }
 
 	Vector3 transformByBones()
@@ -65,10 +66,14 @@ public class AttachToSkinnedMesh : MonoBehaviour
         }
         return p;
 	}
-	// Update is called once per frame
-	void Update()
+    private void OnDestroy()
     {
-         
+        
+    }
+    // Update is called once per frame
+    void Update()
+    {
+         /*
         if (useBonesOnly)
         {
             Vector3 temp = transformByBones();
@@ -81,6 +86,6 @@ public class AttachToSkinnedMesh : MonoBehaviour
             Vector3[] v = m.vertices;
             this.transform.position = smr.transform.TransformPoint(v[closest]);
         }
-        
+        */
     }
 }
