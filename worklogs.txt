@@ -5,7 +5,16 @@ to do
 make a customize data loader with mark coordinates
 train
 test
-2. a conventional computer vision method
+
+
+Aug 5th
+conventional cv method
+
+facemodel: face_cascade
+markmodel: Kazemi or LBF
+
+
+
 
 
 Aug 4th
