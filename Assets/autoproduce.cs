@@ -95,7 +95,7 @@ public class autoproduce : MonoBehaviour
                         //HMDtaylored = child;
                         HMDloction.position = child.position + variation;
                         HMDloction.transform.eulerAngles = VariantRot;
-                    }else if (child.name.Contains("Lipsmark") && child.parent == avatar)
+                    }else if (child.name.Contains("Lipsmark") && child.parent == avatar&&false)
                     {
                         //lipsmark = child;
                         cp.lipsmark = child;

@@ -73,19 +73,21 @@ public class AttachToSkinnedMesh : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         /*
-        if (useBonesOnly)
-        {
-            Vector3 temp = transformByBones();
-            this.transform.position = temp;
-		}
-		else
-		{
-            Mesh m = new Mesh();
-            smr.BakeMesh(m);
-            Vector3[] v = m.vertices;
-            this.transform.position = smr.transform.TransformPoint(v[closest]);
-        }
-        */
+        
+       if (useBonesOnly)
+       {
+           Vector3 temp = transformByBones();
+           this.transform.position = temp;
+       }
+       else
+       {
+           Mesh m = new Mesh();
+           smr.BakeMesh(m);
+           Vector3[] v = m.vertices;
+           this.transform.position = smr.transform.TransformPoint(v[closest]);
+           Destroy(m);
+       }
+        
+       
     }
 }
