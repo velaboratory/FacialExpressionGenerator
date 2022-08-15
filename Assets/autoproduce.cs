@@ -13,7 +13,7 @@ public class autoproduce : MonoBehaviour
     public Transform avatarCliques;
     Transform[] avatarSets;
     public CaptureProcess cp;
-    public bool showLandmark=false;
+    public bool showLandmark = false;
     //public GameObject leftmouthmarker;
     //public GameObject rightmouthmarker;
     private SkinnedMeshRenderer cacheSkin;
@@ -95,7 +95,7 @@ public class autoproduce : MonoBehaviour
                         //HMDtaylored = child;
                         HMDloction.position = child.position + variation;
                         HMDloction.transform.eulerAngles = VariantRot;
-                    }else if (child.name.Contains("Lipsmark") && child.parent == avatar&&false)
+                    }else if (child.name.Contains("Lipsmark") && child.parent == avatar) //&&false
                     {
                         //lipsmark = child;
                         cp.lipsmark = child;

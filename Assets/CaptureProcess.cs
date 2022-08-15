@@ -14,7 +14,7 @@ public class CaptureProcess : MonoBehaviour
     string filePath = "Output";
     string file2ndaryPath = "/landmark";
     string varLabel = "_v0_"; //see worklog for this label details of variation like hmd 6dof or lighting
-    bool writeIMG = false;
+    bool writeIMG = true;
     public Camera LeapLeftCam;
     public Camera LeapRightCam;
     public Light Midlight;
@@ -197,12 +197,17 @@ public class CaptureProcess : MonoBehaviour
 
                     if (writeIMG )
                     {
+                        /*
                         File.WriteAllBytes(filePath + file2ndaryPath+ "/" + varLabel 
                             + "_leapLeft" + filename + ".png", lm.leftImage);
+                        */
+
                         writeCSV(getLandmarks(avatar, LeapLeftCam), filePath + file2ndaryPath + "/" 
                             + varLabel + "_leapLeft" + filename + ".csv");
-                        File.WriteAllBytes(filePath + file2ndaryPath + "/" + varLabel 
-                            + "_leapRight" + filename + ".png", lm.rightImage);
+                        /*
+                       File.WriteAllBytes(filePath + file2ndaryPath + "/" + varLabel 
+                           + "_leapRight" + filename + ".png", lm.rightImage);
+                         */
                         writeCSV(getLandmarks(avatar, LeapRightCam), filePath + file2ndaryPath + "/"
                             + varLabel + "_leapRight" + filename + ".csv");
                     }
