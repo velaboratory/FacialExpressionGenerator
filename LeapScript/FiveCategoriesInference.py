@@ -39,7 +39,7 @@ with open("calibration.json", 'r') as j:
 
 
 # set the leap 
-leap = leapuvc.leapImageThread(source=0,resolution = (640,480)) # resolution in the manual 
+leap = leapuvc.leapImageThread(source=1,resolution = (640,480)) # resolution in the manual 
 leap.setExposure(LeapExposure) 
 # exp 20 with resnet18Category.pth
 
@@ -126,7 +126,7 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
                    
         if preds[1].cpu().numpy() ==0 :     
                 rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
-                    ,"Eighty" + "with " +str(LeapExposure),(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    ,"Eighty " + " with " +str(LeapExposure),(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 50, 250), 2, cv2.LINE_AA) ;
         elif preds[1].cpu().numpy() ==1:    
                 rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
