@@ -86,3 +86,5 @@ crashlytics-build.properties
 
 #my stuff
 /Output
+
+!TrainHarrCascade.pdf

@@ -66,7 +66,7 @@ public class autoproduce : MonoBehaviour
        
         foreach (Transform avatar in avatarSets)
         {
-            if(avatar.parent == avatarCliques) // the first depth layer level
+            if(avatar.parent == avatarCliques ) // the first depth layer level
             {
                 // option for test:    && avatar.gameObject.activeSelf
                 // 1. check it is active and adjust the pos

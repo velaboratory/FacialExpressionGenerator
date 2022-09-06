@@ -1,10 +1,26 @@
 
 
 to do
-1. ML based method
-make a customize data loader with mark coordinates
-train
-test
+*but first align the leap data and Unity synthetic MS Redbox data
+*resize the data for ML instead of maxpooling
+*Gaussian Noise and Blur to create all data as a copy
+--> so decrease Machine Learning data loading duty 
+--> and Conventional Harr training code editting. 
+
+
+Aug 17th
+found the HARR CASCADE location
+prep to train the HARR 
+
+
+
+Aug 14th
+added gaussian blue by pytorch tool
+finalize resnet18 with lipmark
+trained,
+validated results are good,
+but leap real results are bad.
+
 
 
 Aug 5th

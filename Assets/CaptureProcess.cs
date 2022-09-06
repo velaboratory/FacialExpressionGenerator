@@ -121,15 +121,15 @@ public class CaptureProcess : MonoBehaviour
 
     public bool writeCSV(Vector3[] LandmarkVec, string filename)
     {
-        StreamWriter xmlwriter = new StreamWriter(filename);
+        StreamWriter CSVwriter = new StreamWriter(filename);
         foreach (Vector3 element in LandmarkVec)
         {
-            xmlwriter.WriteLine(element.x + "," + (480 - element.y)); // + "," + element.z); // z for future
+            CSVwriter.WriteLine(element.x + "," + (480 - element.y)); // + "," + element.z); // z for future
             //480 is the snapshot 
 
         }
 
-        xmlwriter.Close();
+        CSVwriter.Close();
         return true;
     }
 
