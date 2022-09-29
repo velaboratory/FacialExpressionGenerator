@@ -19,8 +19,9 @@ import json
 
 
 
-print("0725-22exp")
-LeapExposure = 22
+#print("0725-22exp")
+LeapExposure = 24
+print(LeapExposure)
 # load cnn model
 with torch.no_grad():
     model_ft = models.resnet18()
@@ -39,7 +40,7 @@ with open("calibration.json", 'r') as j:
 
 
 # set the leap 
-leap = leapuvc.leapImageThread(source=1,resolution = (640,480)) # resolution in the manual 
+leap = leapuvc.leapImageThread(source=0,resolution = (640,480)) # resolution in the manual 
 leap.setExposure(LeapExposure) 
 # exp 20 with resnet18Category.pth
 
@@ -70,11 +71,8 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
         # cv2 raw data in GRAYSCALAE
         
         
-        # pytorch tools need RGB numpy or better PIL data and PyTorch Tensor input    
-
-     
-        
-            
+        # PyTorch tools need RGB NumPy or better PIL data and PyTorch Tensor input    
+       
         preleft = Image.fromarray(np.uint8(leftRightImage[0])) 
         l = TF.normalize(TF.to_tensor(TF.resize(preleft,(240,320))),[0.5], [0.5]).unsqueeze(0)                                                      
         preright = Image.fromarray(np.uint8(leftRightImage[1])) 
@@ -82,16 +80,12 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
         
         #print("before the pass to torch",preleft.size, " and ",preleft.getbands())
         #ABOUVE PRINTS (640, 480) , ('L',) : graysacle, no need for TF.rgb_to_grayscale(,1) or .convert('RGB')
-   
-
-     
-       
-        
+      
         
         # Pack the raw images
         bundle = torch.cat((l,r)) 
         
-        # Run thro network
+        # Run through network
         with torch.no_grad():
             prediction = model_ft(bundle.cuda()) # invoke cuda() to use gpu run throu
             #prediction = prediction.view(-1,lowerFaceCounts,2)
@@ -101,48 +95,58 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
         # Display the raw frame
         
         if preds[0].cpu().numpy() == 0 :     
-                leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
-                    ,"Eighty",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
-                    (250, 50, 250), 2, cv2.LINE_AA) ;
+                leftviz = cv2.putText(cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
+                    ,"Tracking FROM Left Cam Open LEVEL:  " ,(20,40),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (250, 50, 250), 1, cv2.LINE_AA)," 80 % Open",(40,80),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (250, 50, 250), 2, cv2.LINE_AA);
         elif preds[0].cpu().numpy() ==1:    
-                leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
-                    ,"Fifth",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
-                    (200, 150, 150), 2, cv2.LINE_AA); 
+                leftviz = cv2.putText(cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
+                    ,"Tracking FROM Left Cam Open LEVEL:  ",(20,40),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (200, 150, 150), 1, cv2.LINE_AA)," 20% Open",(40,80),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (250, 50, 250), 2, cv2.LINE_AA); 
         elif preds[0].cpu().numpy() ==2:
-                leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
-                    ,"Full",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                leftviz = cv2.putText(cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
+                    ,"Tracking FROM Left Cam Open LEVEL: ",(20,40),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (250, 50, 250), 1, cv2.LINE_AA)," Full Open",(40,80),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 50, 250), 2, cv2.LINE_AA); 
         elif preds[0].cpu().numpy() ==3:
-                leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
-                    ,"Half",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                leftviz = cv2.putText(cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
+                    ,"Tracking FROM Left Cam Open LEVEL: ",(20,40),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (250, 50, 250), 1, cv2.LINE_AA)," Half Open",(40,80),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 50, 250), 2, cv2.LINE_AA); 
         else:
-                 leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
-                    ,"Zero",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                 leftviz = cv2.putText(cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
+                    ,"Tracking FROM Left Cam Open LEVEL: ",(20,40),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (250, 50, 250), 1, cv2.LINE_AA)," Zero Closed",(40,80),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 50, 250), 2, cv2.LINE_AA); 
                 
         
         
                    
         if preds[1].cpu().numpy() ==0 :     
-                rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
-                    ,"Eighty " + " with " +str(LeapExposure),(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                rightviz = cv2.putText(cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
+                    ,"Tracking FROM RIGHT Cam Open LEVEL:  " ,(20,40),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (250, 50, 250), 1, cv2.LINE_AA)," 80 % Open",(40,80),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 50, 250), 2, cv2.LINE_AA) ;
         elif preds[1].cpu().numpy() ==1:    
-                rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
-                    ,"Fifth",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
-                    (200, 150, 150), 2, cv2.LINE_AA); 
+                rightviz = cv2.putText(cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
+                    ,"Tracking FROM RIGHT Cam Open LEVEL: ",(20,40),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (200, 150, 150), 1, cv2.LINE_AA)," 20% Open",(40,80),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (250, 50, 250), 2, cv2.LINE_AA); 
         elif preds[1].cpu().numpy() ==2:
-                rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
-                    ,"Full",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                rightviz =cv2.putText( cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
+                    ,"Tracking FROM RIGHT Cam Open LEVEL: ",(20,40),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (250, 50, 250), 1, cv2.LINE_AA)," Full Open",(40,80),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 50, 250), 2, cv2.LINE_AA); 
         elif preds[1].cpu().numpy() ==3:
-                rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
-                    ,"Half",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                rightviz = cv2.putText(cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
+                    ,"Tracking FROM RIGHT Cam Open LEVEL: ",(20,40),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (250, 50, 250), 1, cv2.LINE_AA)," Half Open",(40,80),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 50, 250), 2, cv2.LINE_AA); 
         else:
-                 rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
-                    ,"Zero",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                 rightviz = cv2.putText(cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
+                    ,"Tracking FROM RIGHT Cam Open LEVEL: ",(20,40),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (250, 50, 250), 1, cv2.LINE_AA)," Zero Closed",(40,80),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 50, 250), 2, cv2.LINE_AA); 
         cv2.imshow('Frame L', leftviz)
         cv2.imshow('Frame R', rightviz)

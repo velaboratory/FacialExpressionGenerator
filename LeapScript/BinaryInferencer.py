@@ -38,8 +38,8 @@ with open("calibration.json", 'r') as j:
 
 
 # set the leap 
-leap = leapuvc.leapImageThread(source=1,resolution = (640,480)) # resolution in the manual 
-leap.setExposure(20)
+leap = leapuvc.leapImageThread(source=0,resolution = (640,480)) # resolution in the manual 
+leap.setExposure(40)
 leap.setLeftLED(True)
 leap.setCenterLED(True)
 leap.setRightLED(True)
@@ -107,35 +107,23 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
         # Display the raw frame
         if preds[0].cpu().numpy() == 1:
             leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(0,1,0),2)
-                    ,"openLeft",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
-                    (250, 50, 250), 2, cv2.LINE_AA) #.astype('float32')
+                    ,"Tracking Left Cam\n Lip: open",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (250, 250, 250), 2, cv2.LINE_AA) #.astype('float32')
         else:
             leftviz = cv2.putText(cv2.rectangle(leftRightImage[0],(20,20),(600,400),(40,100,40),2)
-                    ,"CLOSE",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
-                    (40, 200, 120), 2, cv2.LINE_AA) #.astype('float32')
+                    ,"Tracking Left Cam\n Lip: CLOSE",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    (240, 200, 120), 2, cv2.LINE_AA) #.astype('float32')
                    
         if preds[1].cpu().numpy() == 1:
             rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
-                    ,"openRight",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    ,"Tracking Right Cam\n Lip: open",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 1, 250), 2, cv2.LINE_AA) #.astype('float32')
         else:
             rightviz = cv2.putText(cv2.rectangle(leftRightImage[1],(20,20),(600,400),(0,1,0),2)
-                    ,"CloseRight",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
+                    ,"Tracking Right Cam\n Lip: Close",(50,50),cv2.FONT_HERSHEY_SIMPLEX,1,
                     (250, 250, 250), 2, cv2.LINE_AA) #.astype('float32')
         cv2.imshow('Frame L', leftviz)
         cv2.imshow('Frame R', rightviz)
 
 cv2.destroyAllWindows()
 
-"""
-preleft = (preleft - mean)/stdev
-preright = (preright - mean)/stdev
-
-preleft -= np.amin(preleft) #shift to 0 
-preleft = cv2.normalize(preleft,None,0,1,cv2.NORM_MINMAX).astype('float32') # [0,1]
-#preleft /= np.amax(preleft)
-preright -= np.amin(preright) #shift to 0 
-preright = cv2.normalize(preright,None,0,1,cv2.NORM_MINMAX).astype('float32') # [0,1]
-#preright /= np.amax(preright)
-
-"""

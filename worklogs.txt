@@ -1,11 +1,25 @@
 
 
-to do
-*but first align the leap data and Unity synthetic MS Redbox data
-*resize the data for ML instead of maxpooling
-*Gaussian Noise and Blur to create all data as a copy
---> so decrease Machine Learning data loading duty 
---> and Conventional Harr training code editting. 
+SEP 29
+CUT into 224x224 or 320x320 across left and right common. multiple of 32.
+cut into 448x448 -> 224x224
+cut into 336x336 -> 224x224 checked
+
+SEP 28
+
+in the lab with 20-30 leap exposure, visualize the view based on me
+readjust to align the data from ms and leap:
+
+collected the data stored under output/Aligned with
+-> the light params into range=0.3, intensity=0.8, spot angle=130
+-> HMD Vector3(0,1.6180000,0.06480000) + Vector3(0,0,0.0052000000)
+=> varLabel "_v1_" in each file name for naming.  
+
+hold up some avatars for tests.
+whole data will be into train/valid/test
+the test will no show in the train/valid part. train and valid are random picked. 
+
+
 
 
 Aug 17th

@@ -12,8 +12,8 @@ public class CaptureProcess : MonoBehaviour
     public string avatarName;
     public int ordinalAvatar;
     string filePath = "Output";
-    string file2ndaryPath = "/landmark";
-    string varLabel = "_v0_"; //see worklog for this label details of variation like hmd 6dof or lighting
+    string file2ndaryPath = "/Aligned";
+    string varLabel = "_v1_"; //see worklog for this label details of variation like hmd 6dof or lighting
     bool writeIMG = true;
     public Camera LeapLeftCam;
     public Camera LeapRightCam;
@@ -197,17 +197,17 @@ public class CaptureProcess : MonoBehaviour
 
                     if (writeIMG )
                     {
-                        /*
+                        
                         File.WriteAllBytes(filePath + file2ndaryPath+ "/" + varLabel 
                             + "_leapLeft" + filename + ".png", lm.leftImage);
-                        */
+                        
 
                         writeCSV(getLandmarks(avatar, LeapLeftCam), filePath + file2ndaryPath + "/" 
                             + varLabel + "_leapLeft" + filename + ".csv");
-                        /*
+                        
                        File.WriteAllBytes(filePath + file2ndaryPath + "/" + varLabel 
                            + "_leapRight" + filename + ".png", lm.rightImage);
-                         */
+                         
                         writeCSV(getLandmarks(avatar, LeapRightCam), filePath + file2ndaryPath + "/"
                             + varLabel + "_leapRight" + filename + ".csv");
                     }
