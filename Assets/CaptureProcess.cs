@@ -12,9 +12,9 @@ public class CaptureProcess : MonoBehaviour
     public string avatarName;
     public int ordinalAvatar;
     string filePath = "Output";
-    string file2ndaryPath = "/Aligned";
-    string varLabel = "_v1_"; //see worklog for this label details of variation like hmd 6dof or lighting
-    bool writeIMG = true;
+    string file2ndaryPath = "/av4";
+    string varLabel = "_v4_"; //see worklog for this label details of variation like hmd 6dof or lighting
+    bool writeIMG = false;
     public Camera LeapLeftCam;
     public Camera LeapRightCam;
     public Light Midlight;

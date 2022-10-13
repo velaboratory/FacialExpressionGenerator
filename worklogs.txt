@@ -1,3 +1,26 @@
+Oct 04
+
+
+gen data 3
+
+-> the light params into intensity=0.85, spot angle= 130,  range=0.2
+-> rotation variate Vector3(0.01f, 0.01f, 0.01f)
+-> position variate Vector3(0f, -0.002f, +0.0052f)
+-> the rest as last time '_v3_' set
+=> varLabel '_v4_' in each file name for naming.  
+
+gen data 2
+-> readjust Cam on LeapMotion position to to -0.001
+-> the light params into intensity=0.9
+-> the rest as last time '_v2_' set
+=> varLabel '_v3_' in each file name for naming.  
+
+gen data 1
+-> readjust LeapMotion position to Vector3(0,-0.06,0.03)
+-> the rest as last time set
+=> varLabel '_v2_' in each file name for naming.  
+
+
 
 
 SEP 29

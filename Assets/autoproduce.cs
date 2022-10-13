@@ -20,8 +20,8 @@ public class autoproduce : MonoBehaviour
     public Transform HMDloction;
     public Transform lipsmark = null;
     //Transform landmarks;
-    Vector3 variation = new Vector3(0f, +0.00f, +0.0052f);
-    Vector3 VariantRot = new Vector3(0.0f, 0.0f, 0.0f);
+    Vector3 variation = new Vector3(0f, -0.002f, +0.0052f);
+    Vector3 VariantRot = new Vector3(0.01f, 0.01f, 0.01f);
     avatarProp mine;
 
     public struct avatarProp
@@ -66,7 +66,7 @@ public class autoproduce : MonoBehaviour
        
         foreach (Transform avatar in avatarSets)
         {
-            if(avatar.parent == avatarCliques ) // the first depth layer level
+            if(avatar.parent == avatarCliques && avatar.gameObject.activeSelf) // the first depth layer level
             {
                 // option for test:    && avatar.gameObject.activeSelf
                 // 1. check it is active and adjust the pos
@@ -95,7 +95,7 @@ public class autoproduce : MonoBehaviour
                         //HMDtaylored = child;
                         HMDloction.position = child.position + variation;
                         HMDloction.transform.eulerAngles = VariantRot;
-                    }else if (child.name.Contains("Lipsmark") && child.parent == avatar) //&&false
+                    }else if (child.name.Contains("Lipsmark") && child.parent == avatar && showLandmark) //&&false
                     {
                         //lipsmark = child;
                         cp.lipsmark = child;
