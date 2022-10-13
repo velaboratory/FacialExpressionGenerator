@@ -8,6 +8,7 @@ Assets/Microsoft-Rocketbox/Assets/Avatars/Children
 Assets/Microsoft-Rocketbox/Assets/Avatars/**/*.meta
 Assets/Microsoft-Rocketbox/Assets/Avatars/**/*ale*/*
 !Assets/Microsoft-Rocketbox/Assets/Avatars/**/*ale*/Export
+!Assets/Microsoft-Rocketbox/Assets/Avatars/**/*Female*/Textures
 Assets/Microsoft-Rocketbox/Assets/Avatars/**/*ale*/Export/*
 !Assets/Microsoft-Rocketbox/Assets/Avatars/**/*ale*/Export/*facial*
 
