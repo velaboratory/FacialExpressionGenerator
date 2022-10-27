@@ -20,8 +20,8 @@ public class autoproduce : MonoBehaviour
     public Transform HMDloction;
     public Transform lipsmark = null;
     //Transform landmarks;
-    Vector3 variation = new Vector3(0f, -0.002f, +0.0052f);
-    Vector3 VariantRot = new Vector3(0.01f, 0.01f, 0.01f);
+    Vector3 variation = new Vector3(0f, 0.002f, +0.0048f);
+    Vector3 VariantRot = new Vector3(-4.0f, 0.0f, 0.0f);
     avatarProp mine;
 
     public struct avatarProp

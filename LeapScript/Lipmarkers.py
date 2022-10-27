@@ -25,24 +25,25 @@ class Network(nn.Module):
         #torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, 
             #groups=1, bias=True, padding_mode='zeros', device=None, dtype=None) 
         #self.firstlayer=nn.Conv2d(1, 32, kernel_size=7, stride=2, padding=3, bias=False)
-        self.firstlayer=nn.MaxPool2d(3,stride=2)
+        #self.firstlayer=nn.MaxPool2d(3,stride=2)
         self.model=models.resnet18() # 224 x 224 <- 640 x480
         self.model.conv1=nn.Conv2d(1, 64, kernel_size=7, stride=2, padding=3, bias=False)
         self.model.fc=nn.Linear(self.model.fc.in_features, num_classes)
        
         
     def forward(self, x):
-        x=self.model(self.firstlayer(x))
+        #x=self.model(self.firstlayer(x))
+        x=self.model(x)
         return x
         
 with torch.no_grad():
 
     best_network = Network()
     best_network.cuda()
-    best_network.load_state_dict(torch.load('../lip_landmarks0.pth')) 
+    best_network.load_state_dict(torch.load('lip_landmarks4.pth')) 
     best_network.eval()
     
-LeapExposure = 30 # 50 in lab
+LeapExposure = 20 # 50 in lab
 with open("calibration.json", 'r') as j:
      contents = json.loads(j.read()) 
 
@@ -76,8 +77,11 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
                 
                 
                 # pytorch needs RGB numpy or better PIL data and PyTorch Tensor input 
-                preleft = Image.fromarray(np.uint8(cv2.resize(leftRightImage[0][50:386,150:486],(224,224)))) 
-                preright = Image.fromarray(np.uint8(cv2.resize(leftRightImage[1][50:386,150:486],(224,224))))
+                cut224l=cv2.resize(leftRightImage[0][50:386,150:486],(224,224)) #336 ->224
+                cut224r=cv2.resize(leftRightImage[1][50:386,150:486],(224,224))
+				
+                preleft = Image.fromarray(np.uint8(cut224l)) 
+                preright = Image.fromarray(np.uint8(cut224r))
                 
                 l = TF.normalize(TF.to_tensor(preleft),[0.5], [0.5]).unsqueeze(0)
                 r = TF.normalize(TF.to_tensor(preright),[0.5], [0.5]).unsqueeze(0)                   
@@ -85,25 +89,27 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
                 
                 
                 # Pack the raw images
-                #bundle = torch.cat((l,r))
+                bundle = torch.cat((l,r))
                 
                 
                 # Run thro network
                 with torch.no_grad():
                     prediction = best_network(bundle.cuda()).cpu() + 0.5  # invoke cuda() to use gpu run throu                   
                     prediction = prediction.view(-1,4,2).numpy() # 4 as 4 markers
-                    prediction = prediction*224 /2*3 + (150,50)
+                    prediction = prediction*224# /2*3 + (150,50)
                  
                  
                 #show time
                 for (LabelLeft, LabelRight) in  zip(prediction[0],prediction[1]):
                     #cv2.drawMarker draws a marker! One marker!!!! https://docs.opencv.org/3.4/d6/d6e/group__imgproc__draw.html#ga482fa7b0f578fcdd8a174904592a6250
-                    cv2.drawMarker(leftRightImage[0], ((LabelLeft[0] ).astype(int), (LabelLeft[1] ).astype(int)),
+                    cv2.drawMarker(cut224l, ((LabelLeft[0]).astype(int), (LabelLeft[1]).astype(int)),
+                    #cv2.drawMarker(leftRightImage[0], ((LabelLeft[0] ).astype(int), (LabelLeft[1] ).astype(int)),
                     (200, 150, 150), markerType=cv2.MARKER_STAR,markerSize=2, thickness=2, line_type=cv2.LINE_AA)
-                    cv2.drawMarker(leftRightImage[1], ((LabelRight[0]).astype(int), (LabelRight[1]).astype(int)), 
+                    cv2.drawMarker(cut224r, ((LabelRight[0]).astype(int), (LabelRight[1]).astype(int)), 
+                    #cv2.drawMarker(leftRightImage(1), ((LabelRight[0]).astype(int), (LabelRight[1]).astype(int)), 
                     (250, 50, 200), markerType=cv2.MARKER_STAR,markerSize=2, thickness=2, line_type=cv2.LINE_AA)
 
-                cv2.imshow('Frame L', leftRightImage[0])
-                cv2.imshow('Frame R', leftRightImage[1])
+                cv2.imshow('Frame L', cut224l)
+                cv2.imshow('Frame R', cut224r)
                 
 cv2.destroyAllWindows()

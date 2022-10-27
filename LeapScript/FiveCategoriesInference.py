@@ -20,7 +20,7 @@ import json
 
 
 #print("0725-22exp")
-LeapExposure = 24
+LeapExposure = 24 #24
 print(LeapExposure)
 # load cnn model
 with torch.no_grad():

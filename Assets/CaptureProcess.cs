@@ -12,9 +12,9 @@ public class CaptureProcess : MonoBehaviour
     public string avatarName;
     public int ordinalAvatar;
     string filePath = "Output";
-    string file2ndaryPath = "/av4";
-    string varLabel = "_v4_"; //see worklog for this label details of variation like hmd 6dof or lighting
-    bool writeIMG = false;
+    string file2ndaryPath = "/AV7";
+    string varLabel = "_v7_"; //see worklog for this label details of variation like hmd 6dof or lighting
+    bool writeIMG = true;
     public Camera LeapLeftCam;
     public Camera LeapRightCam;
     public Light Midlight;
@@ -197,19 +197,37 @@ public class CaptureProcess : MonoBehaviour
 
                     if (writeIMG )
                     {
-                        
-                        File.WriteAllBytes(filePath + file2ndaryPath+ "/" + varLabel 
+                        if( ordinalAvatar!=7 && ordinalAvatar != 50 && ordinalAvatar < 89 )
+                        {
+                            File.WriteAllBytes(filePath + file2ndaryPath + "/" + varLabel
                             + "_leapLeft" + filename + ".png", lm.leftImage);
-                        
 
-                        writeCSV(getLandmarks(avatar, LeapLeftCam), filePath + file2ndaryPath + "/" 
-                            + varLabel + "_leapLeft" + filename + ".csv");
+
+                            writeCSV(getLandmarks(avatar, LeapLeftCam), filePath + file2ndaryPath + "/"
+                                + varLabel + "_leapLeft" + filename + ".csv");
+
+                            File.WriteAllBytes(filePath + file2ndaryPath + "/" + varLabel
+                                + "_leapRight" + filename + ".png", lm.rightImage);
+
+                            writeCSV(getLandmarks(avatar, LeapRightCam), filePath + file2ndaryPath + "/"
+                                + varLabel + "_leapRight" + filename + ".csv");
+                        }
+                        else {
+                            File.WriteAllBytes(filePath + "/test" + "/" + varLabel
+                            + "_leapLeft" + filename + ".png", lm.leftImage);
+
+
+                            writeCSV(getLandmarks(avatar, LeapLeftCam), filePath + "/test" + "/"
+                                + varLabel + "_leapLeft" + filename + ".csv");
+
+                            File.WriteAllBytes(filePath + "/test" + "/" + varLabel
+                                + "_leapRight" + filename + ".png", lm.rightImage);
+
+                            writeCSV(getLandmarks(avatar, LeapRightCam), filePath + "/test" + "/"
+                                + varLabel + "_leapRight" + filename + ".csv");
+
+                        }
                         
-                       File.WriteAllBytes(filePath + file2ndaryPath + "/" + varLabel 
-                           + "_leapRight" + filename + ".png", lm.rightImage);
-                         
-                        writeCSV(getLandmarks(avatar, LeapRightCam), filePath + file2ndaryPath + "/"
-                            + varLabel + "_leapRight" + filename + ".csv");
                     }
 
 

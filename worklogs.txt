@@ -1,3 +1,43 @@
+kids mesh needs to be added
+more data and 
+
+Oct 26
+gen data 
+-> the light params into intensity=0.85, spot angle= 120,  range=0.5
+->entire leap rot y increment - 3 to  177
+-> rotation variate Vector3(-4.0f, 0.0f, 0.0f);
+-> the rest as last time '_v6_' set
+=> varLabel '_v7_' in each file name for naming.  
+
+
+Oct 25
+record a my real data, AND THEN COMPARE WITH , LOWER FACE WITH THE LOWER FACE MODEL
+re gen data 2-3
+re train seperately
+give training data lower cut more variation, but how 
+gen data 
+-> the light params into intensity=0.9, spot angle= 115,  range=0.5
+-> rotation variate Vector3(-3.0f, 0.0f, 0.0f);
+-> variation = new Vector3(0f, 0.002f, +0.0048f)
+-> entire leap rot y increment 3 (180->183).
+-> change the both leapcam z into 0.005
+-> the rest as last time '_v5_' set
+=> varLabel '_v6_' in each file name for naming.  
+
+
+OCT 18
+
+gen data 
+-> rotation variate Vector3(-3.0f, 0.0f, 0.0f);
+-> change the both leapcam z into 0.005
+-> the rest as last time '_v4_' set
+=> varLabel '_v5_' in each file name for naming.  
+
+re-train lowface network
+figure to train lipmark with labels.
+re-train the lipmark network
+
+
 Oct 04
 
 
