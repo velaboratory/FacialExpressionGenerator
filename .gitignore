@@ -4,7 +4,10 @@ Assets/Microsoft-Rocketbox/*
 Assets/Microsoft-Rocketbox/Assets/*
 !Assets/Microsoft-Rocketbox/Assets/Avatars
 Assets/Microsoft-Rocketbox/Assets/Avatars/*.meta
-Assets/Microsoft-Rocketbox/Assets/Avatars/Children
+!Assets/Microsoft-Rocketbox/Assets/Avatars/Children
+Assets/Microsoft-Rocketbox/Assets/Avatars/Children/*.meta
+Assets/Microsoft-Rocketbox/Assets/Avatars/Children/*ale*/*
+!Assets/Microsoft-Rocketbox/Assets/Avatars/Children/*ale*/Textures
 Assets/Microsoft-Rocketbox/Assets/Avatars/**/*.meta
 Assets/Microsoft-Rocketbox/Assets/Avatars/**/*ale*/*
 !Assets/Microsoft-Rocketbox/Assets/Avatars/**/*ale*/Export
