@@ -29,7 +29,8 @@ public class CaptureProcess : MonoBehaviour
             ,41 ,42 ,43 ,44 ,45 ,46 ,47 ,48 ,63 ,64 ,65 ,66 ,67 ,68
             ,69 ,70 ,71 ,72 ,78 ,79 ,80 ,81 ,82 ,83 ,84 ,85 ,86 ,89
             ,90 ,91 ,92 ,95 ,96 ,108 ,109}; // chosen for lower face proper deformation; see worklog
-
+    int[] avaindex = new int[] { 2, 4, 5, 16, 25, 32, 36, 37, 46, 48,
+            51, 55, 58, 61, 66, 67, 68, 69, 71, 72, 74, 75, 78, 80, 86, 87};
 
     // Start is called before the first frame update
     void Start()
