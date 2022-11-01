@@ -8,12 +8,11 @@ public class autoproduce : MonoBehaviour
 {
     //public GameObject[] prefabs;
     int indices = 0;
-    
     //references
     public Transform avatarCliques;
     Transform[] avatarSets;
     public CaptureProcess cp;
-    public bool showLandmark = false;
+    public bool showLandmark; //!!! set in the editor or start again as public
     //public GameObject leftmouthmarker;
     //public GameObject rightmouthmarker;
     private SkinnedMeshRenderer cacheSkin;
@@ -28,13 +27,10 @@ public class autoproduce : MonoBehaviour
     {
         //is there a better data container than struct? guess not, compiler has no data type inference 
         //use it for now to store the avatar name, initial pos
-
         public string name;
         public Vector3 bodyPos;
         //public Vector3 leftMouthCornerPos;
         //public Vector3 rightMouthCornerPos;
-
-
         public avatarProp(string names, Vector3 bPos, Vector3 lPos, Vector3 rPos) {
 
             // ....
@@ -49,6 +45,7 @@ public class autoproduce : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        showLandmark = false;
         avatarSets = avatarCliques.GetComponentsInChildren<Transform>(true);
         //StartCoroutine("avatarLoadIteration"); //empty scene, load all avatars, drop it.
        
@@ -66,7 +63,7 @@ public class autoproduce : MonoBehaviour
        
         foreach (Transform avatar in avatarSets)
         {
-            if(avatar.parent == avatarCliques ) // the first depth layer level
+            if(avatar.parent == avatarCliques) // the first depth layer level
             {
                 // option for test:    && avatar.gameObject.activeSelf
                 // 1. check it is active and adjust the pos
@@ -89,28 +86,31 @@ public class autoproduce : MonoBehaviour
                 for (int i = 0; i < avatar.transform.childCount; i++)
                 {
                     Transform child = avatar.transform.GetChild(i);
-                    if (child.name.Contains("HMD"))
+                    if (child.name.Contains("HMD") && child.parent == avatar)
                     {
                         
                         //HMDtaylored = child;
                         HMDloction.position = child.position + variation;
                         HMDloction.transform.eulerAngles = VariantRot;
-                    }else if (child.name.Contains("Lipsmark") && child.parent == avatar && !showLandmark) //&&false
+                    }
+                    if (child.name.Contains("Lipsmark") && child.parent == avatar ) //&&false
                     {
                         //lipsmark = child;
                         cp.lipsmark = child;
-                        foreach (Transform eachmark in child)
+                        if (!showLandmark)
                         {
-                            foreach (Transform vizSphere in eachmark)
+                            foreach (Transform eachmark in child)
                             {
-                                vizSphere.gameObject.SetActive(false);
-                                //deactivate the visual cue before running it.
-                                //those only for aligning and testing
+                                foreach (Transform vizSphere in eachmark)
+                                {
+                                    print("what?");
+                                    vizSphere.gameObject.SetActive(false);
+                                    //deactivate the visual cue before running it.
+                                    //those only for aligning and testing
+                                }
                             }
                         }
-
-
-
+                   
                     }
                 }
 

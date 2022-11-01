@@ -14,7 +14,7 @@ public class CaptureProcess : MonoBehaviour
     string filePath = "Output";
     string file2ndaryPath = "/AV7";
     string varLabel = "_v7_"; //see worklog for this label details of variation like hmd 6dof or lighting
-    bool writeIMG = true;
+    bool writeIMG = false;
     public Camera LeapLeftCam;
     public Camera LeapRightCam;
     public Light Midlight;

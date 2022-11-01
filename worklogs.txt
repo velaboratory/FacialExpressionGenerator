@@ -1,5 +1,10 @@
-kids mesh needs to be added
-more data and 
+Nov 1
+Done re examining all the avatar and marks
+to do:
+re examine all the data and re-distribute train/valid --test data set
+and use more fine-grained level of different blend shape to add more details
+previously was: int amount = 25; amount <= 100; amount += 25; which arew 25,50,75,100
+switch to 15: 90: 25; which are  15,40,65,90
 
 Oct 26
 gen data 
