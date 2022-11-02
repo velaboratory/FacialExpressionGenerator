@@ -1,10 +1,25 @@
-Nov 1
-Done re examining all the avatar and marks
-to do:
-re examine all the data and re-distribute train/valid --test data set
+Nov 2
+re-distribute train/valid --test data set
 and use more fine-grained level of different blend shape to add more details
 previously was: int amount = 25; amount <= 100; amount += 25; which arew 25,50,75,100
 switch to 15: 90: 25; which are  15,40,65,90
+
+51 and 96 are basically the same
+
+gen data 
+-> the light params into intensity=0.9, spot angle= 120,  range=0.5
+-> leap position to Vector3(0,-0.0599999987,0.0320000015)
+-> rotation variate Vector3(-6.0f, 0.0f, 0.0f);
+-> the rest as last time '_v7_' set
+=> varLabel '_v8_' in each file name for naming. 
+
+
+
+
+Nov 1
+Done re examining all the avatar and marks
+
+
 
 Oct 26
 gen data 

@@ -12,9 +12,9 @@ public class CaptureProcess : MonoBehaviour
     public string avatarName;
     public int ordinalAvatar;
     string filePath = "Output";
-    string file2ndaryPath = "/AV7";
-    string varLabel = "_v7_"; //see worklog for this label details of variation like hmd 6dof or lighting
-    bool writeIMG = false;
+    string file2ndaryPath = "/AV8";
+    string varLabel = "_v8_"; //see worklog for this label details of variation like hmd 6dof or lighting
+    bool writeIMG = true;
     public Camera LeapLeftCam;
     public Camera LeapRightCam;
     public Light Midlight;
@@ -29,8 +29,8 @@ public class CaptureProcess : MonoBehaviour
             ,41 ,42 ,43 ,44 ,45 ,46 ,47 ,48 ,63 ,64 ,65 ,66 ,67 ,68
             ,69 ,70 ,71 ,72 ,78 ,79 ,80 ,81 ,82 ,83 ,84 ,85 ,86 ,89
             ,90 ,91 ,92 ,95 ,96 ,108 ,109}; // chosen for lower face proper deformation; see worklog
-    int[] avaindex = new int[] { 2, 4, 5, 16, 25, 32, 36, 37, 46, 48,
-            51, 55, 58, 61, 66, 67, 68, 69, 71, 72, 74, 75, 78, 80, 86, 87};
+    int[] avaindex = new int[] {16, 25, 32, 51, 55, 87, 89, 92, 95, 96}; //10 hold for test only
+    private bool validfile = true;
 
     // Start is called before the first frame update
     void Start()
@@ -176,7 +176,15 @@ public class CaptureProcess : MonoBehaviour
 
         string[] blendshapeNames = getBlendShapeNames(avatar.smr);
 
-        
+        if  (Array.IndexOf(avaindex, ordinalAvatar) > -1)
+        {
+            validfile = false; //meaning this is the test data
+        }
+        else
+        {
+            validfile = true; //meaning this is training or valid data
+        }
+
         int blendshapeBound = blendshapeNames.Length;
         //disableLandmark(avatar);
         // in total 236 different pose of face deformation
@@ -184,7 +192,7 @@ public class CaptureProcess : MonoBehaviour
         {
             if (element < blendshapeBound) //c# there is no for+if bundle? so assure within boundary  
             {
-                for (int amount = 25; amount <= 100; amount += 25) // 0 is repeated across different blending
+                for (int amount = 15; amount <= 90; amount += 25) // 0 is repeated across different blending
                 {
 
                     avatar.smr.SetBlendShapeWeight(element, amount);
@@ -198,7 +206,7 @@ public class CaptureProcess : MonoBehaviour
 
                     if (writeIMG )
                     {
-                        if( ordinalAvatar!=7 && ordinalAvatar != 50 && ordinalAvatar < 89 )
+                        if(validfile)
                         {
                             File.WriteAllBytes(filePath + file2ndaryPath + "/" + varLabel
                             + "_leapLeft" + filename + ".png", lm.leftImage);
