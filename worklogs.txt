@@ -1,3 +1,11 @@
+nov 15
+1st need the MobileNetv3 as background engine
+https://github.com/rwightman/gen-efficientnet-pytorch
+download this as another name like genwork with 
+sys.path.insert(0,'../genwork') accordingly import
+2nd need the openseeface as the core
+next to figure out a way to train the network and prepard the data
+
 Nov 2
 re-distribute train/valid --test data set
 and use more fine-grained level of different blend shape to add more details
@@ -13,7 +21,11 @@ gen data
 -> the rest as last time '_v7_' set
 => varLabel '_v8_' in each file name for naming. 
 
-
+gen data 
+-> the light params into intensity=0.8, spot angle= 130,  range=0.4
+-> rotation variate Vector3(-5.0f, 0.0f, 0.0f);
+-> the rest as last time '_v8_' set
+=> varLabel '_v9_' in each file name for naming. 
 
 
 Nov 1

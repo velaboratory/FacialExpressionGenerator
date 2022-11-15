@@ -20,7 +20,7 @@ public class autoproduce : MonoBehaviour
     public Transform lipsmark = null;
     //Transform landmarks;
     Vector3 variation = new Vector3(0f, 0.002f, +0.0048f);
-    Vector3 VariantRot = new Vector3(-6.0f, 0.0f, 0.0f);
+    Vector3 VariantRot = new Vector3(-5.0f, 0.0f, 0.0f);
     avatarProp mine;
    
 

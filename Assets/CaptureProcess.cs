@@ -12,8 +12,8 @@ public class CaptureProcess : MonoBehaviour
     public string avatarName;
     public int ordinalAvatar;
     string filePath = "Output";
-    string file2ndaryPath = "/AV8";
-    string varLabel = "_v8_"; //see worklog for this label details of variation like hmd 6dof or lighting
+    string file2ndaryPath = "/AV9";
+    string varLabel = "_v9_"; //see worklog for this label details of variation like hmd 6dof or lighting
     bool writeIMG = true;
     public Camera LeapLeftCam;
     public Camera LeapRightCam;

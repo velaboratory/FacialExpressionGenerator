@@ -37,7 +37,7 @@ with torch.no_grad():
 
     best_network = Network()
     best_network.cuda()
-    best_network.load_state_dict(torch.load('LowerFaceLipMark1Left4.pth')) 
+    best_network.load_state_dict(torch.load('LipMark1102Left.pth')) 
     best_network.eval()
 
 class IdentityBrick(nn.Module): #residual block concepts in the resnet
@@ -137,12 +137,13 @@ ngpu = 1
 device = torch.device("cuda:0" if (torch.cuda.is_available() and ngpu > 0) else "cpu")		
 with torch.no_grad():
 	lowerface= lowerfacelocator(ngpu).to(device)
-	lowerface.load_state_dict(torch.load('lowface3.pth')) 
+	lowerface.load_state_dict(torch.load('lowface1102.pth')) 
 	lowerface.eval()
 with open("calibration.json", 'r') as j:
      contents = json.loads(j.read()) 
 leap = leapuvc.leapImageThread(source=1,resolution = (640,480)) # resolution in the manual 	
-LeapExposure = 25 # 50 in lab
+LeapExposure = 15 # 50 in lab
+print('the exposure is {}'.format(LeapExposure))
 leap.setExposure(LeapExposure) 
 leap.setLeftLED(True)
 leap.setCenterLED(True)
@@ -199,20 +200,20 @@ while((not (cv2.waitKey(1) & 0xFF == ord('q'))) and leap.running):
 				#show time for lip markers
                 for (LabelLeft, LabelRight) in  zip(predictions[0],predictions[1]):
                     #cv2.drawMarker draws a marker! One marker!!!! https://docs.opencv.org/3.4/d6/d6e/group__imgproc__draw.html#ga482fa7b0f578fcdd8a174904592a6250
-                    cv2.drawMarker(leftRightImage[0], ((LabelLeft[0]).astype(int)+lefttop[0][1], (LabelLeft[1]).astype(int)+lefttop[0][0]),
+                    cv2.drawMarker(leftRightImage[0], ((LabelLeft[0]).astype(int)+lefttop[0][0], (LabelLeft[1]).astype(int)+lefttop[0][1]),
                     #cv2.drawMarker(leftRightImage[0], ((LabelLeft[0] ).astype(int), (LabelLeft[1] ).astype(int)),
                     (200, 150, 150), markerType=cv2.MARKER_STAR,markerSize=2, thickness=2, line_type=cv2.LINE_AA)
                     #cv2.drawMarker(leftRightImage[1], ((LabelRight[0]).astype(int)+lefttop[1][0], (LabelRight[1]).astype(int)+lefttop[1][1]), 
                     #cv2.drawMarker(leftRightImage(1), ((LabelRight[0]).astype(int), (LabelRight[1]).astype(int)), 
                     #(250, 50, 200), markerType=cv2.MARKER_STAR,markerSize=2, thickness=2, line_type=cv2.LINE_AA)
 	
-                if(cv2.waitKey(1) & 0xFF == ord('s')):
-                	imgl, imgr = cropimg(leftRightImage[0],leftRightImage[1], lefttop)
-                	cv2.imwrite('Captures/'+'LeapExposure'+str(LeapExposure)+'File'
-							+str(fileIndex)+'left.png', imgl)
-                	cv2.imwrite('Captures/'+'LeapExposure'+str(LeapExposure)+'File'
-							+str(fileIndex)+'right.png', imgr)
-                	fileIndex += 1
+                #if(cv2.waitKey(1) & 0xFF == ord('s')):
+                #	imgl, imgr = cropimg(leftRightImage[0],leftRightImage[1], lefttop)
+                #	cv2.imwrite('Captures/'+'LeapExposure'+str(LeapExposure)+'File'
+				#			+str(fileIndex)+'left.png', imgl)
+                #	cv2.imwrite('Captures/'+'LeapExposure'+str(LeapExposure)+'File'
+				#			+str(fileIndex)+'right.png', imgr)
+                #	fileIndex += 1
 
 				
 
